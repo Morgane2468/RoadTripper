@@ -1,10 +1,28 @@
 <script setup>
-import TaskCard from './TaskCard.vue'
+import { computed } from "vue";
+import draggable from "vuedraggable";
+import TaskCard from "./TaskCard.vue";
+import { useTripsStore } from "@/stores/trips";
 
-defineProps({
+const props = defineProps({
   title: { type: String, required: true },
   tasks: { type: Array, required: true },
-})
+});
+
+const store = useTripsStore();
+
+// Liste locale : vuedraggable a besoin d'un v-model modifiable
+const list = computed({
+  get: () => props.tasks,
+  set: () => {},
+});
+
+// Appelé quand une carte est déposée dans cette colonne
+function onChange(evt) {
+  if (evt.added) {
+    store.setStatus(evt.added.element.id_todo, props.title);
+  }
+}
 </script>
 
 <template>
@@ -14,8 +32,19 @@ defineProps({
       <span class="text-sm font-normal text-gray-500">({{ tasks.length }})</span>
     </h2>
 
-    <TaskCard v-for="t in tasks" :key="t.id_todo" :task="t" />
+    <draggable
+      v-model="list"
+      group="tasks"
+      item-key="id_todo"
+      @change="onChange"
+      class="min-h-24"
+      ghost-class="opacity-40"
+    >
+      <template #item="{ element }">
+        <TaskCard :task="element" class="cursor-grab" />
+      </template>
+    </draggable>
 
-    <p v-if="tasks.length === 0" class="text-sm text-gray-400">Aucune tâche</p>
+    <p v-if="tasks.length === 0" class="text-sm text-gray-400">Glisse une tâche ici</p>
   </div>
 </template>

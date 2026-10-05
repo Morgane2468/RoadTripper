@@ -53,5 +53,9 @@ export const useTripsStore = defineStore('trips', {
     deleteTask(id_todo) {
       this.tasks = this.tasks.filter((t) => t.id_todo !== id_todo)
     },
+    setStatus(id_todo, status) {
+      const t = this.tasks.find((t) => t.id_todo === id_todo)
+      if (t) t.status = status
+    },
   },
 })
