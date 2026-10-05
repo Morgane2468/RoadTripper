@@ -1,15 +1,15 @@
 <script setup>
-import { computed } from 'vue'
-import { useTripsStore } from '@/stores/trips'
+import { computed } from "vue";
+import { useTripsStore } from "@/stores/trips";
 
 const props = defineProps({
   task: { type: Object, required: true },
-})
+});
 
-const store = useTripsStore()
+const store = useTripsStore();
 const category = computed(() =>
-  store.categories.find((c) => c.id_category === props.task.id_category)
-)
+  store.categories.find((c) => c.id_category === props.task.id_category),
+);
 </script>
 
 <template>
@@ -36,5 +36,11 @@ const category = computed(() =>
       <option>Doing</option>
       <option>Done</option>
     </select>
+    <button
+      @click="store.deleteTask(task.id_todo)"
+      class="mt-2 text-xs text-red-500 hover:text-red-700"
+    >
+      Supprimer
+    </button>
   </div>
 </template>

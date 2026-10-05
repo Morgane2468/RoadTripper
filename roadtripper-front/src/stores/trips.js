@@ -35,5 +35,23 @@ export const useTripsStore = defineStore('trips', {
       this.trips = this.trips.filter((t) => t.id_trip !== id_trip)
       this.tasks = this.tasks.filter((t) => t.id_trip !== id_trip)
     },
+        addTask(id_trip, title, id_category) {
+      const clean = title.trim()
+      if (!clean) return
+      const nextId = this.tasks.length
+        ? Math.max(...this.tasks.map((t) => t.id_todo)) + 1
+        : 1
+      this.tasks.push({
+        id_todo: nextId,
+        id_trip: Number(id_trip),
+        id_category: id_category ? Number(id_category) : null,
+        title: clean,
+        status: 'To Do',
+      })
+    },
+
+    deleteTask(id_todo) {
+      this.tasks = this.tasks.filter((t) => t.id_todo !== id_todo)
+    },
   },
 })
