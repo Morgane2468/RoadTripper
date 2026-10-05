@@ -1,0 +1,15 @@
+{
+  "categories": [
+    { "id_category": 1, "name": "Admin",    "color": "#3b82f6" },
+    { "id_category": 2, "name": "Gear",     "color": "#f59e0b" },
+    { "id_category": 3, "name": "Bookings", "color": "#10b981" }
+  ],
+  "trips": [
+    { "id_trip": 1, "id_user": 1, "name": "Gaspésie 2026" }
+  ],
+  "tasks": [
+    { "id_todo": 1, "id_trip": 1, "id_category": 1, "title": "Vérifier passeport", "status": "To Do" },
+    { "id_todo": 2, "id_trip": 1, "id_category": 2, "title": "Acheter une tente", "status": "Doing" },
+    { "id_todo": 3, "id_trip": 1, "id_category": 3, "title": "Réserver camping", "status": "Done" }
+  ]
+}
