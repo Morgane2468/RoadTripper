@@ -1,12 +1,26 @@
 import { defineStore } from 'pinia'
 import mock from '@/mock/data.json'
 
+export const STORAGE_KEY = 'roadtripper-data'
+
+function loadSaved() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
 export const useTripsStore = defineStore('trips', {
-  state: () => ({
-    categories: mock.categories,
-    trips: mock.trips,
-    tasks: mock.tasks,
-  }),
+  state: () => {
+    const saved = loadSaved()
+    return {
+      categories: mock.categories,
+      trips: saved?.trips ?? mock.trips,
+      tasks: saved?.tasks ?? mock.tasks,
+    }
+  },
   getters: {
     tasksByTrip: (s) => (id) => s.tasks.filter((t) => t.id_trip === Number(id)),
     progress: (s) => (id) => {
@@ -22,12 +36,14 @@ export const useTripsStore = defineStore('trips', {
       if (t) t.status = status
     },
 
+    setStatus(id_todo, status) {
+      this.moveTask(id_todo, status)
+    },
+
     addTrip(name) {
       const clean = name.trim()
       if (!clean) return
-      const nextId = this.trips.length
-        ? Math.max(...this.trips.map((t) => t.id_trip)) + 1
-        : 1
+      const nextId = this.trips.length ? Math.max(...this.trips.map((t) => t.id_trip)) + 1 : 1
       this.trips.push({ id_trip: nextId, id_user: 1, name: clean })
     },
 
@@ -35,12 +51,11 @@ export const useTripsStore = defineStore('trips', {
       this.trips = this.trips.filter((t) => t.id_trip !== id_trip)
       this.tasks = this.tasks.filter((t) => t.id_trip !== id_trip)
     },
-        addTask(id_trip, title, id_category) {
+
+    addTask(id_trip, title, id_category) {
       const clean = title.trim()
       if (!clean) return
-      const nextId = this.tasks.length
-        ? Math.max(...this.tasks.map((t) => t.id_todo)) + 1
-        : 1
+      const nextId = this.tasks.length ? Math.max(...this.tasks.map((t) => t.id_todo)) + 1 : 1
       this.tasks.push({
         id_todo: nextId,
         id_trip: Number(id_trip),
@@ -52,10 +67,6 @@ export const useTripsStore = defineStore('trips', {
 
     deleteTask(id_todo) {
       this.tasks = this.tasks.filter((t) => t.id_todo !== id_todo)
-    },
-    setStatus(id_todo, status) {
-      const t = this.tasks.find((t) => t.id_todo === id_todo)
-      if (t) t.status = status
     },
   },
 })

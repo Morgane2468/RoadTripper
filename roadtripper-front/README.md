@@ -1,44 +1,36 @@
-# roadtripper-front
+# RoadTripper 🚗
 
-This template should help get you started developing with Vue 3 in Vite.
+Application web pour organiser ses road trips : un espace par voyage et un tableau Kanban (To Do / Doing / Done) pour suivre la préparation. Projet du cours MOD8 – Advanced Web Programming.
 
-## Recommended IDE Setup
+## Technologies
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Front-end : Vue 3, Vite, Vue Router, Pinia, Tailwind CSS, vuedraggable
+- Back-end : Node.js (prévu, Milestone 3)
+- Base de données : MySQL (prévu, Milestone 3)
 
-## Recommended Browser Setup
+## Lancer le front-end
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
+git clone https://github.com/Morgane2468/RoadTripper.git
+cd RoadTripper/roadtripper-front
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+Puis ouvrir http://localhost:5173/
 
-```sh
-npm run build
-```
+## Fonctionnalités actuelles
 
-### Lint with [ESLint](https://eslint.org/)
+- Inscription et connexion avec validation (authentification simulée pour l'instant)
+- Création et suppression de voyages
+- Kanban à 3 colonnes avec drag & drop, badges de catégories, barre de progression
+- Création et suppression de tâches
+- Pages protégées par une garde de navigation
 
-```sh
-npm run lint
-```
+## État du projet
+
+Les données sont stockées dans le navigateur (localStorage) en attendant le back-end.
+
+## Équipe
+
+Valentin, Morgane, Erwan, Mathieu
