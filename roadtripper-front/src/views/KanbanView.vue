@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, RouterLink } from 'vue-router'
 import { useTripsStore } from '@/stores/trips'
 import KanbanColumn from '@/components/KanbanColumn.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
@@ -20,9 +20,13 @@ const tasksOf = (status) =>
 </script>
 
 <template>
-  <div class="p-6 max-w-5xl mx-auto">
-    <div class="flex items-center justify-between mb-4">
-      <h1 class="text-2xl font-bold">{{ trip?.name ?? 'Voyage introuvable' }}</h1>
+  <div v-if="trip" class="p-6 max-w-5xl mx-auto">
+    <RouterLink to="/trips" class="text-sm text-blue-600 hover:underline">
+      ← Mes voyages
+    </RouterLink>
+
+    <div class="flex items-center justify-between mt-2 mb-4">
+      <h1 class="text-2xl font-bold">{{ trip.name }}</h1>
       <button
         @click="showModal = true"
         class="bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700"
@@ -38,5 +42,11 @@ const tasksOf = (status) =>
     </div>
 
     <TaskModal v-if="showModal" :trip-id="route.params.id" @close="showModal = false" />
+  </div>
+
+  <div v-else class="p-6 max-w-xl mx-auto text-center">
+    <h1 class="text-2xl font-bold mb-2">Voyage introuvable</h1>
+    <p class="text-gray-500 mb-4">Ce voyage n'existe pas ou a été supprimé.</p>
+    <RouterLink to="/trips" class="text-blue-600 hover:underline">Retour à mes voyages</RouterLink>
   </div>
 </template>
