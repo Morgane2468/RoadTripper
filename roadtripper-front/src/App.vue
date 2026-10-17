@@ -1,3 +1,4 @@
+<!-- App : composant principal. Affiche la barre de navigation (si connecté) puis la page courante. -->
 <script setup>
 import { RouterView } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'

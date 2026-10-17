@@ -1,7 +1,9 @@
+<!-- LoginView : page de connexion (validation du formulaire, puis connexion simulée). -->
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import AuthLayout from '@/components/AuthLayout.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -35,46 +37,43 @@ function submit() {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100">
-    <form @submit.prevent="submit" novalidate class="bg-white p-8 rounded-lg shadow w-96">
-      <h1 class="text-2xl font-bold text-blue-600 mb-6">RoadTripper 🚗</h1>
-
-      <label class="block text-sm font-medium text-gray-700 mb-1" for="email">Email</label>
+  <AuthLayout title="Content de te revoir !" subtitle="Connecte-toi pour retrouver tes voyages.">
+    <form @submit.prevent="submit" novalidate>
+      <label class="mb-1 block text-sm font-bold" for="email">Email</label>
       <input
         id="email"
         v-model="email"
         type="email"
         autocomplete="email"
         placeholder="nom@exemple.com"
-        class="w-full border rounded p-2"
-        :class="submitted && emailError ? 'border-red-500' : 'border-gray-300'"
+        class="w-full rounded-2xl border-2 p-2 focus:border-coral focus:outline-none"
+        :class="submitted && emailError ? 'border-red-500' : 'border-gray-200'"
       />
-      <p v-if="submitted && emailError" class="text-sm text-red-500 mt-1">{{ emailError }}</p>
+      <p v-if="submitted && emailError" class="mt-1 text-sm text-red-500">{{ emailError }}</p>
 
-      <label class="block text-sm font-medium text-gray-700 mt-4 mb-1" for="password">
-        Mot de passe
-      </label>
+      <label class="mt-4 mb-1 block text-sm font-bold" for="password">Mot de passe</label>
       <input
         id="password"
         v-model="password"
         type="password"
         autocomplete="current-password"
         placeholder="8 caractères minimum"
-        class="w-full border rounded p-2"
-        :class="submitted && passwordError ? 'border-red-500' : 'border-gray-300'"
+        class="w-full rounded-2xl border-2 p-2 focus:border-coral focus:outline-none"
+        :class="submitted && passwordError ? 'border-red-500' : 'border-gray-200'"
       />
-      <p v-if="submitted && passwordError" class="text-sm text-red-500 mt-1">
-        {{ passwordError }}
-      </p>
+      <p v-if="submitted && passwordError" class="mt-1 text-sm text-red-500">{{ passwordError }}</p>
 
-      <button type="submit" class="w-full bg-blue-600 text-white rounded p-2 mt-6 hover:bg-blue-700">
-        Se connecter
+      <button
+        type="submit"
+        class="mt-6 w-full rounded-full bg-coral p-3 font-bold text-white hover:bg-coral-dark"
+      >
+        C'est parti !
       </button>
 
-      <p class="text-sm text-gray-500 mt-4 text-center">
+      <p class="mt-4 text-center text-sm text-gray-500">
         Pas encore de compte ?
-        <RouterLink to="/register" class="text-blue-600 hover:underline">Créer un compte</RouterLink>
+        <RouterLink to="/register" class="font-bold text-coral hover:underline">Créer un compte</RouterLink>
       </p>
     </form>
-  </div>
+  </AuthLayout>
 </template>

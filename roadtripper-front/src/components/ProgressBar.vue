@@ -1,3 +1,4 @@
+<!-- ProgressBar : barre de progression d'un voyage (pourcentage de tâches terminées). -->
 <script setup>
 defineProps({
   percent: { type: Number, default: 0 },
@@ -6,14 +7,23 @@ defineProps({
 
 <template>
   <div>
-    <div class="flex justify-between text-sm text-gray-600 mb-1">
+    <div class="mb-2 flex justify-between text-sm font-bold">
       <span>Préparation du voyage</span>
-      <span>{{ percent }} %</span>
+      <span class="text-coral">{{ percent }} %</span>
     </div>
-    <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
-      <div
-        class="h-3 bg-green-500 rounded-full transition-all duration-300"
-        :style="{ width: percent + '%' }"
+
+    <div class="relative mr-6">
+      <!-- Fond gris + partie remplie -->
+      <div class="h-4 overflow-hidden rounded-full bg-gray-200">
+        <div
+          class="h-4 rounded-full bg-coral transition-all duration-500"
+          :style="{ width: percent + '%' }"
+        />
+      </div>
+      <!-- Rond qui suit la progression -->
+      <span
+        class="absolute -top-1 h-6 w-6 rounded-full border-4 border-coral bg-white transition-all duration-500"
+        :style="{ left: percent + '%' }"
       />
     </div>
   </div>
