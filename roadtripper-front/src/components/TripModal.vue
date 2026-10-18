@@ -7,7 +7,7 @@ import { TRIP_TEMPLATES } from '@/data/tripTemplates'
 const emit = defineEmits(['close'])
 const store = useTripsStore()
 
-// Un ref par champ du formulaire (ils seront enregistrés dans MySQL au Milestone 3)
+// Un ref par champ du formulaire (ils seront enregistrés dans MySQL )
 const name = ref('')
 const destination = ref('')
 const tripType = ref('')
@@ -15,8 +15,8 @@ const startDate = ref('')
 const endDate = ref('')
 const travelers = ref(1)
 const budget = ref('')
-const transport = ref('Voiture')
-const visibility = ref('Privé')
+const transport = ref('Car')
+const visibility = ref('Private')
 const description = ref('')
 const submitted = ref(false)
 
@@ -32,11 +32,11 @@ watch(tripType, () => {
   chosen.value = suggestions.value.map((task) => task.title)
 })
 
-const nameError = computed(() => (name.value.trim() ? '' : 'Le nom du voyage est obligatoire.'))
+const nameError = computed(() => (name.value.trim() ? '' : 'The travel name is required.'))
 
 const dateError = computed(() => {
   if (startDate.value && endDate.value && endDate.value < startDate.value) {
-    return 'La date de retour doit être après la date de départ.'
+    return 'The return date must be after the depart date.'
   }
   return ''
 })
@@ -75,11 +75,11 @@ function save() {
       novalidate
       class="mx-auto my-8 w-full max-w-lg rounded-3xl bg-white p-6 shadow-lg"
     >
-      <h2 class="mb-4 text-2xl">Nouveau voyage</h2>
+      <h2 class="mb-4 text-2xl">New Trip</h2>
 
       <div class="grid gap-4 sm:grid-cols-2">
         <div class="sm:col-span-2">
-          <label class="mb-1 block text-sm font-bold" for="trip-name">Nom du voyage *</label>
+          <label class="mb-1 block text-sm font-bold" for="trip-name">Travel name</label>
           <input
             id="trip-name"
             v-model="name"
@@ -114,7 +114,7 @@ function save() {
         <div v-if="suggestions.length" class="rounded-2xl bg-sun/20 p-4 sm:col-span-2">
           <p class="text-sm font-bold">Tâches suggérées pour « {{ tripType }} »</p>
           <p class="mb-3 text-xs text-gray-500">
-            Décoche celles dont tu n'as pas besoin. Tu pourras aussi les supprimer plus tard.
+            Uncheck useless tasks, you can always add more later.
           </p>
           <label v-for="task in suggestions" :key="task.title" class="flex items-center gap-2 py-1 text-sm">
             <input type="checkbox" v-model="chosen" :value="task.title" class="h-4 w-4 accent-coral" />
@@ -123,7 +123,7 @@ function save() {
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-bold" for="trip-start">Date de départ</label>
+          <label class="mb-1 block text-sm font-bold" for="trip-start">Depart date</label>
           <input
             id="trip-start"
             v-model="startDate"
@@ -133,7 +133,7 @@ function save() {
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-bold" for="trip-end">Date de retour</label>
+          <label class="mb-1 block text-sm font-bold" for="trip-end">Return date</label>
           <input
             id="trip-end"
             v-model="endDate"
@@ -145,7 +145,7 @@ function save() {
         <p v-if="submitted && dateError" class="text-sm text-red-500 sm:col-span-2">{{ dateError }}</p>
 
         <div>
-          <label class="mb-1 block text-sm font-bold" for="trip-travelers">Voyageurs</label>
+          <label class="mb-1 block text-sm font-bold" for="trip-travelers">Travelers</label>
           <input
             id="trip-travelers"
             v-model="travelers"
@@ -156,7 +156,7 @@ function save() {
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-bold" for="trip-budget">Budget ($)</label>
+          <label class="mb-1 block text-sm font-bold" for="trip-budget">Budget (CAD$)</label>
           <input
             id="trip-budget"
             v-model="budget"
@@ -170,20 +170,20 @@ function save() {
         <div>
           <label class="mb-1 block text-sm font-bold" for="trip-transport">Transport</label>
           <select id="trip-transport" v-model="transport" class="w-full rounded-2xl border-2 border-gray-200 p-2">
-            <option>Voiture</option>
+            <option>Car</option>
             <option>Camping-car</option>
-            <option>Moto</option>
-            <option>Vélo</option>
-            <option>Transport en commun</option>
-            <option>Autre</option>
+            <option>Motorcycle</option>
+            <option>Bike</option>
+            <option>Public transportation</option>
+            <option>Other</option>
           </select>
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-bold" for="trip-visibility">Visibilité</label>
+          <label class="mb-1 block text-sm font-bold" for="trip-visibility">Visibility</label>
           <select id="trip-visibility" v-model="visibility" class="w-full rounded-2xl border-2 border-gray-200 p-2">
-            <option>Privé</option>
-            <option>Partagé avec des amis</option>
+            <option>Private</option>
+            <option>Shared with friends</option>
             <option>Public</option>
           </select>
         </div>
@@ -206,10 +206,10 @@ function save() {
           @click="emit('close')"
           class="rounded-full border-2 border-gray-200 px-4 py-2 font-bold"
         >
-          Annuler
+          Cancel
         </button>
         <button type="submit" class="rounded-full bg-coral px-5 py-2 font-bold text-white hover:bg-coral-dark">
-          Créer le voyage
+          Create Trip
         </button>
       </div>
     </form>

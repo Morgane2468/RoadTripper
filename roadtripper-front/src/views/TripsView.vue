@@ -55,7 +55,7 @@ function removeTrip(trip) {
                 {{ trip.transport }}
               </span>
               <span v-if="trip.travelers" class="rounded-full bg-lagoon/20 px-3 py-1">
-                {{ trip.travelers }} voyageur(s)
+                {{ trip.travelers }} voyager(s)
               </span>
               <span v-if="trip.budget" class="rounded-full bg-leaf/30 px-3 py-1">{{ trip.budget }} $</span>
             </div>

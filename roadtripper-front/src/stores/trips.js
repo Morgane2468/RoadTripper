@@ -13,7 +13,7 @@ function nextId(list, field) {
 
 export const useTripsStore = defineStore('trips', {
   state: () => {
-    // null si rien n'a encore été sauvegardé : on prend alors les données de test
+    // null si rien n'a encore été sauvegardé 
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
     return {
       categories: mock.categories,

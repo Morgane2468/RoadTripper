@@ -49,14 +49,14 @@ function logout() {
           {{ initial }}
         </button>
 
-        <!-- Zone invisible : un clic en dehors du menu le ferme -->
+        <!-- Zone invisible pour fermer les menus ouvert en cliquant à côté -->
         <div v-if="menuOpen" class="fixed inset-0 z-10" @click="menuOpen = false" />
 
         <div
           v-if="menuOpen"
           class="absolute right-0 z-20 mt-2 w-56 rounded-2xl bg-white p-2 shadow-lg"
         >
-          <p class="truncate px-3 py-2 text-sm text-gray-500">{{ auth.email }}</p>
+          <p class="truncate px-3 py-2 text-sm text-gray-500">{{ auth.name }}</p>
           <hr class="my-1 border-gray-100" />
           <span class="block cursor-not-allowed px-3 py-2 text-gray-400">Mon profil (bientôt)</span>
           <span class="block cursor-not-allowed px-3 py-2 text-gray-400">Paramètres (bientôt)</span>
