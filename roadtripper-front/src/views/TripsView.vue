@@ -10,7 +10,7 @@ const store = useTripsStore()
 const showModal = ref(false)
 
 function removeTrip(trip) {
-  if (confirm(`Supprimer « ${trip.name} » et toutes ses tâches ?`)) {
+  if (confirm(`Delete « ${trip.name} » and all its tasks ?`)) {
     store.deleteTrip(trip.id_trip)
   }
 }
@@ -22,7 +22,7 @@ function removeTrip(trip) {
       @click="showModal = true"
       class="rounded-full bg-white px-6 py-3 font-bold text-coral shadow hover:bg-cream"
     >
-      + Nouveau voyage
+      + New trip
     </button>
   </PageHeader>
 
@@ -71,13 +71,13 @@ function removeTrip(trip) {
         </RouterLink>
 
         <div class="border-t border-gray-100 px-4 py-2 text-right">
-          <button @click="removeTrip(trip)" class="text-sm text-red-500 hover:text-red-700">Supprimer</button>
+          <button @click="removeTrip(trip)" class="text-sm text-red-500 hover:text-red-700">Delete</button>
         </div>
       </div>
     </div>
 
     <p v-if="store.trips.length === 0" class="py-10 text-center text-gray-400">
-      Aucun voyage pour l'instant. Crée le premier !
+      No trip for now. Create the first one !
     </p>
   </div>
 

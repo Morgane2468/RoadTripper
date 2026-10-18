@@ -1,7 +1,7 @@
 // Tâches suggérées selon le type de voyage (dans le formulaire de création de voyages).
 // id_category : 1 = Admin, 2 = Gear , 3 = Bookings 
 export const TRIP_TEMPLATES = {
-  Montagne: [
+  Mountain: [
     { title: 'Book a refuge or accommodation', id_category: 3 },
     { title: "Check the weather and trail conditions", id_category: 1 },
     { title: 'Hiking boots', id_category: 2 },
@@ -10,7 +10,7 @@ export const TRIP_TEMPLATES = {
     { title: 'First aid kit', id_category: 2 },
     { title: 'Download an offline map', id_category: 1 },
   ],
-  Campagne: [
+  Countryside: [
     { title: 'Book a lodge or campsite', id_category: 3 },
     { title: 'Tent and sleeping bags', id_category: 2 },
     { title: 'Camp stove and cookware', id_category: 2 },
@@ -19,7 +19,7 @@ export const TRIP_TEMPLATES = {
     { title: 'Insect repellent and sunscreen', id_category: 2 },
     { title: 'Check the campsite\'s fire regulations', id_category: 1 },
   ],
-  Plage: [
+  Beach: [
     { title: 'Book a accommodation', id_category: 3 },
     { title: 'Check the weather', id_category: 1 },
     { title: 'Sunscreen', id_category: 2 },
@@ -28,14 +28,14 @@ export const TRIP_TEMPLATES = {
     { title: 'Sunglasses and hat', id_category: 2 },
     { title: 'Waterproof bag', id_category: 2 },
   ],
-  Ville: [
+  City: [
     { title: 'Book a hotel', id_category: 3 },
     { title: 'Buy tickets (museums, shows)', id_category: 3 },
     { title: 'Find public transportation', id_category: 1 },
     { title: 'Comfortable shoes', id_category: 2 },
     { title: 'Charger and external battery', id_category: 2 },
   ],
-  Neige: [
+  Snow: [
     { title: 'Book accommodation', id_category: 3 },
     { title: 'Buy ski pass', id_category: 3 },
     { title: "Check the road conditions", id_category: 1 },
@@ -43,8 +43,8 @@ export const TRIP_TEMPLATES = {
     { title: "Winter tires and chains", id_category: 2 },
     { title: 'Ski goggles', id_category: 2 },
   ],
-  Autre:[
-    { title: 'Book a accomodation', id_category: 3 },
+  Other: [
+    { title: 'Book a accommodation', id_category: 3 },
     { title: 'Identity documents', id_category: 1 },
   ]
 }
