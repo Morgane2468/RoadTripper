@@ -1,17 +1,15 @@
+<!-- TripsView : liste des voyages de l'utilisateur, avec création et suppression. -->
 <script setup>
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useTripsStore } from '@/stores/trips'
+import PageHeader from '@/components/PageHeader.vue'
+import TripModal from '@/components/TripModal.vue'
 
 const store = useTripsStore()
-const newName = ref('')
+const showModal = ref(false)
 
-function add() {
-  store.addTrip(newName.value)
-  newName.value = ''
-}
-
-function remove(trip) {
+function removeTrip(trip) {
   if (confirm(`Supprimer « ${trip.name} » et toutes ses tâches ?`)) {
     store.deleteTrip(trip.id_trip)
   }
@@ -19,41 +17,69 @@ function remove(trip) {
 </script>
 
 <template>
-  <div class="p-6 max-w-3xl mx-auto">
-    <h1 class="text-2xl font-bold mb-6">Mes road trips 🚗</h1>
-
-    <div class="flex gap-2 mb-6">
-      <input
-        v-model="newName"
-        @keyup.enter="add"
-        type="text"
-        placeholder="Nom du voyage (ex. Gaspésie 2026)"
-        class="flex-1 border rounded p-2"
-      />
-      <button
-        @click="add"
-        class="bg-blue-600 text-white rounded px-4 hover:bg-blue-700"
-      >
-        + Nouveau voyage
-      </button>
-    </div>
-
-    <div
-      v-for="trip in store.trips"
-      :key="trip.id_trip"
-      class="flex items-center bg-white rounded-lg shadow p-4 mb-3 hover:shadow-md"
+  <PageHeader title="Mes road trips" subtitle="Organise chaque voyage, étape par étape.">
+    <button
+      @click="showModal = true"
+      class="rounded-full bg-white px-6 py-3 font-bold text-coral shadow hover:bg-cream"
     >
-      <RouterLink :to="`/trips/${trip.id_trip}`" class="flex-1">
-        <p class="font-medium text-gray-800">{{ trip.name }}</p>
-        <p class="text-sm text-gray-500">{{ store.progress(trip.id_trip) }} % prêt</p>
-      </RouterLink>
-      <button @click="remove(trip)" class="text-sm text-red-500 hover:text-red-700">
-        Supprimer
-      </button>
+      + Nouveau voyage
+    </button>
+  </PageHeader>
+
+  <div class="mx-auto max-w-5xl p-6">
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div
+        v-for="trip in store.trips"
+        :key="trip.id_trip"
+        class="overflow-hidden rounded-3xl bg-white shadow transition hover:shadow-lg"
+      >
+        <RouterLink :to="`/trips/${trip.id_trip}`" class="block">
+          <!-- Bandeau avec la première lettre du voyage -->
+          <div class="flex h-24 items-center justify-center bg-linear-to-br from-coral to-sun">
+            <span class="font-brand text-5xl text-white">{{ trip.name.charAt(0).toUpperCase() }}</span>
+          </div>
+
+          <div class="p-4">
+            <p class="font-display text-xl">{{ trip.name }}</p>
+            <!-- Ces infos n'existent que si elles ont été remplies dans le formulaire -->
+            <p v-if="trip.destination" class="text-sm text-gray-500">{{ trip.destination }}</p>
+            <p v-if="trip.start_date" class="text-sm text-gray-500">
+              {{ trip.start_date }} au {{ trip.end_date || '?' }}
+            </p>
+
+            <div class="mt-3 flex flex-wrap gap-2 text-xs font-bold">
+              <span v-if="trip.trip_type" class="rounded-full bg-coral/15 px-3 py-1 text-coral-dark">
+                {{ trip.trip_type }}
+              </span>
+              <span v-if="trip.transport" class="rounded-full bg-sun/30 px-3 py-1">
+                {{ trip.transport }}
+              </span>
+              <span v-if="trip.travelers" class="rounded-full bg-lagoon/20 px-3 py-1">
+                {{ trip.travelers }} voyageur(s)
+              </span>
+              <span v-if="trip.budget" class="rounded-full bg-leaf/30 px-3 py-1">{{ trip.budget }} $</span>
+            </div>
+
+            <p class="mt-4 mb-1 text-sm text-gray-500">{{ store.progress(trip.id_trip) }} % prêt</p>
+            <div class="h-2.5 overflow-hidden rounded-full bg-gray-200">
+              <div
+                class="h-2.5 rounded-full bg-coral transition-all"
+                :style="{ width: store.progress(trip.id_trip) + '%' }"
+              />
+            </div>
+          </div>
+        </RouterLink>
+
+        <div class="border-t border-gray-100 px-4 py-2 text-right">
+          <button @click="removeTrip(trip)" class="text-sm text-red-500 hover:text-red-700">Supprimer</button>
+        </div>
+      </div>
     </div>
 
-    <p v-if="store.trips.length === 0" class="text-gray-400">
+    <p v-if="store.trips.length === 0" class="py-10 text-center text-gray-400">
       Aucun voyage pour l'instant. Crée le premier !
     </p>
   </div>
+
+  <TripModal v-if="showModal" @close="showModal = false" />
 </template>
