@@ -34,9 +34,9 @@ function removeTrip(trip) {
         class="overflow-hidden rounded-3xl bg-white shadow transition hover:shadow-lg"
       >
         <RouterLink :to="`/trips/${trip.id_trip}`" class="block">
-          <!-- Bandeau avec la première lettre du voyage -->
+          <!-- Bandeau titre  -->
           <div class="flex h-24 items-center justify-center bg-linear-to-br from-coral to-sun">
-            <span class="font-brand text-5xl text-white">{{ trip.name.charAt(0).toUpperCase() }}</span>
+            <span class="font-brand text-5xl text-white">{{ trip.name }}</span>
           </div>
 
           <div class="p-4">

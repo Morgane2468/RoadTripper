@@ -1,7 +1,6 @@
-/* Style global : Tailwind + nos couleurs et nos polices. */
+/* Tailwind + nos couleurs et nos polices. */
 @import "tailwindcss";
 
-/* Avec @theme, on peut ensuite écrire bg-coral, text-night, font-brand... */
 @theme {
   --font-display: "Fredoka", sans-serif;
   --font-brand: "Pacifico", cursive;
@@ -15,7 +14,7 @@
   --color-cream: #fff7ea;
 }
 
-/* Style par défaut (les classes Tailwind peuvent le remplacer) */
+/* Default CSS */
 @layer base {
   body {
     background-color: var(--color-cream);
