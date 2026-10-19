@@ -1,22 +1,25 @@
-<!-- TripsView : liste des voyages de l'utilisateur, avec création et suppression. -->
+<!-- TripsView: "My trips" page with key numbers, the trip list and the trip templates. -->
 <script setup>
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
 import { useTripsStore } from '@/stores/trips'
 import PageHeader from '@/components/PageHeader.vue'
+import StatsStrip from '@/components/StatsStrip.vue'
+import TemplatesSection from '@/components/TemplatesSection.vue'
 import TripModal from '@/components/TripModal.vue'
+import TripRow from '@/components/TripRow.vue'
 
 const store = useTripsStore()
 const showModal = ref(false)
 
 function removeTrip(trip) {
-  if (confirm(`Delete « ${trip.name} » and all its tasks ?`)) {
+  if (confirm(`Delete "${trip.name}" and all its tasks?`)) {
     store.deleteTrip(trip.id_trip)
   }
 }
 </script>
 
 <template>
+  <!-- Page header: handled by another team member -->
   <PageHeader title="My trips" subtitle="Organise your trip, without stress!">
     <button
       @click="showModal = true"
@@ -26,59 +29,27 @@ function removeTrip(trip) {
     </button>
   </PageHeader>
 
-  <div class="mx-auto max-w-5xl p-6">
-    <div class="grid gap-5 sm:grid-cols-2">
-      <div
-        v-for="trip in store.trips"
-        :key="trip.id_trip"
-        class="overflow-hidden rounded-3xl bg-white shadow transition hover:shadow-lg"
-      >
-        <RouterLink :to="`/trips/${trip.id_trip}`" class="block">
-          <!-- Bandeau titre  -->
-          <div class="flex h-24 items-center justify-center bg-linear-to-br from-coral to-sun">
-            <span class="font-brand text-5xl text-white">{{ trip.name }}</span>
-          </div>
+  <div class="mx-auto max-w-7xl space-y-10 px-8 py-8">
+    <StatsStrip />
 
-          <div class="p-4">
-            <p class="font-display text-xl">{{ trip.name }}</p>
-            <!-- Ces infos n'existent que si elles ont été remplies dans le formulaire -->
-            <p v-if="trip.destination" class="text-sm text-gray-500">{{ trip.destination }}</p>
-            <p v-if="trip.start_date" class="text-sm text-gray-500">
-              {{ trip.start_date }} au {{ trip.end_date || '?' }}
-            </p>
+    <section>
+      <h2 class="mb-4 text-2xl">Your trips</h2>
 
-            <div class="mt-3 flex flex-wrap gap-2 text-xs font-bold">
-              <span v-if="trip.trip_type" class="rounded-full bg-coral/15 px-3 py-1 text-coral-dark">
-                {{ trip.trip_type }}
-              </span>
-              <span v-if="trip.transport" class="rounded-full bg-sun/30 px-3 py-1">
-                {{ trip.transport }}
-              </span>
-              <span v-if="trip.travelers" class="rounded-full bg-lagoon/20 px-3 py-1">
-                {{ trip.travelers }} traveler{{ trip.travelers > 1 ? 's' : '' }}
-              </span>
-              <span v-if="trip.budget" class="rounded-full bg-leaf/30 px-3 py-1">{{ trip.budget }} CAD$</span>
-            </div>
+      <div class="space-y-5">
+        <TripRow v-for="trip in store.trips" :key="trip.id_trip" :trip="trip" @delete="removeTrip(trip)" />
 
-            <p class="mt-4 mb-1 text-sm text-gray-500">{{ store.progress(trip.id_trip) }} % done</p>
-            <div class="h-2.5 overflow-hidden rounded-full bg-gray-200">
-              <div
-                class="h-2.5 rounded-full bg-coral transition-all"
-                :style="{ width: store.progress(trip.id_trip) + '%' }"
-              />
-            </div>
-          </div>
-        </RouterLink>
-
-        <div class="border-t border-gray-100 px-4 py-2 text-right">
-          <button @click="removeTrip(trip)" class="text-sm text-red-500 hover:text-red-700">Delete</button>
-        </div>
+        <!-- Dashed card to create a new trip -->
+        <button
+          @click="showModal = true"
+          class="flex w-full flex-col items-center rounded-3xl border-2 border-dashed border-coral/40 py-10 text-coral hover:bg-coral/5"
+        >
+          <span class="font-display text-xl">+ Create a new trip</span>
+          <span class="mt-1 text-sm text-gray-500">Choose a trip type to get a ready-made checklist</span>
+        </button>
       </div>
-    </div>
+    </section>
 
-    <p v-if="store.trips.length === 0" class="py-10 text-center text-gray-400">
-      No trip for now. Create the first one !
-    </p>
+    <TemplatesSection />
   </div>
 
   <TripModal v-if="showModal" @close="showModal = false" />
