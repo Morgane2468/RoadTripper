@@ -19,11 +19,11 @@ function removeTrip(trip) {
 </script>
 
 <template>
-  <!-- Page header: handled by another team member -->
-  <PageHeader title="My trips" subtitle="Organise your trip, without stress!" class="items-center justify-between px-32">
+  <!-- Page header -->
+  <PageHeader title="My trips" subtitle="Organise your trip, without stress!" class="mx:auto flex items-center justify-between px-14">
     <button
       @click="showModal = true"
-      class="rounded-full bg-white px-6 py-3 font-bold text-coral shadow hover:bg-cream"
+      class= "rounded-full text-white px-7 py-3 font-bold hover:bg-coral-dark -translate-y-3"
     >
       + New trip
     </button>

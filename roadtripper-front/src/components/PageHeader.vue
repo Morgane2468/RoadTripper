@@ -7,11 +7,11 @@ defineProps({
 </script>
 
 <template>
-  <header class="bg-linear-to-br from-coral to-sun text-white">
-    <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-10">
+  <header class="w-[50%] py-4">
+    <div class="rounded-full bg-linear-to-br from-coral to-sun flex flex-wrap items-center justify-between gap-3 px-6 py-6 h-[102px]">
       <div>
-        <h1 class="font-brand text-4xl md:text-5xl">{{ title }}</h1>
-        <p class="mt-1 text-lg text-white/90">{{ subtitle }}</p>
+        <h1 class="font-brand text-white text-3xl md:text-4xl translate-x-6 -translate-y-2">{{ title }}</h1>
+        <p class="mt-1 text-lg text-white/90 py-1 translate-x-6">{{ subtitle }}</p>
       </div>
       <slot />
     </div>
