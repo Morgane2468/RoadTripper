@@ -44,7 +44,7 @@ const category = computed(() =>
       @click="store.deleteTask(task.id_todo)"
       class="mt-2 text-xs text-red-500 hover:text-red-700"
     >
-      Supprimer
+      Delete
     </button>
   </div>
 </template>

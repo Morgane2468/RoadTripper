@@ -1,4 +1,4 @@
-// Tâches suggérées selon le type de voyage (dans le formulaire de création de voyages).
+// Tâches suggérées selon le type de voyage dans le formulaire de création de voyages.
 // id_category : 1 = Admin, 2 = Gear , 3 = Bookings 
 export const TRIP_TEMPLATES = {
   Mountain: [

@@ -20,13 +20,13 @@ const visibility = ref('Private')
 const description = ref('')
 const submitted = ref(false)
 
-// Types de voyage proposés : Montagne, Campagne, Plage...
+// Types de voyage proposés
 const tripTypes = Object.keys(TRIP_TEMPLATES)
 
-// Tâches suggérées pour le type choisi (liste vide si aucun type)
+// Tâches suggérées pour le type choisi
 const suggestions = computed(() => TRIP_TEMPLATES[tripType.value] || [])
 
-// Titres des tâches cochées : quand le type change, on coche tout par défaut
+// Titres des tâches cochées
 const chosen = ref([])
 watch(tripType, () => {
   chosen.value = suggestions.value.map((task) => task.title)
@@ -103,16 +103,16 @@ function save() {
         </div>
 
         <div class="sm:col-span-2">
-          <label class="mb-1 block text-sm font-bold" for="trip-type">Type de voyage</label>
+          <label class="mb-1 block text-sm font-bold" for="trip-type">Trip type</label>
           <select id="trip-type" v-model="tripType" class="w-full rounded-2xl border-2 border-gray-200 p-2">
-            <option value="">Aucun</option>
+            <option value="">None</option>
             <option v-for="type in tripTypes" :key="type">{{ type }}</option>
           </select>
         </div>
 
         <!-- Tâches suggérées : cochées par défaut, l'utilisateur décoche celles qu'il ne veut pas -->
         <div v-if="suggestions.length" class="rounded-2xl bg-sun/20 p-4 sm:col-span-2">
-          <p class="text-sm font-bold">Tâches suggérées pour « {{ tripType }} »</p>
+          <p class="text-sm font-bold">Suggested tasks for « {{ tripType }} »</p>
           <p class="mb-3 text-xs text-gray-500">
             Uncheck useless tasks, you can always add more later.
           </p>

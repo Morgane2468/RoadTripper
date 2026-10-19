@@ -3,7 +3,7 @@
 import { defineStore } from 'pinia'
 import mock from '@/mock/data.json'
 
-const STORAGE_KEY = 'roadtripper-data'
+const STORAGE_KEY = 'GearUP-data'
 
 // Donne le prochain id libre d'une liste, ex. nextId(trips, 'id_trip')
 function nextId(list, field) {

@@ -17,7 +17,7 @@ function removeTrip(trip) {
 </script>
 
 <template>
-  <PageHeader title="Mes road trips" subtitle="Organise chaque voyage, étape par étape.">
+  <PageHeader title="My trips" subtitle="Organise your trip, without stress!">
     <button
       @click="showModal = true"
       class="rounded-full bg-white px-6 py-3 font-bold text-coral shadow hover:bg-cream"
@@ -55,12 +55,12 @@ function removeTrip(trip) {
                 {{ trip.transport }}
               </span>
               <span v-if="trip.travelers" class="rounded-full bg-lagoon/20 px-3 py-1">
-                {{ trip.travelers }} voyager(s)
+                {{ trip.travelers }} traveler{{ trip.travelers > 1 ? 's' : '' }}
               </span>
-              <span v-if="trip.budget" class="rounded-full bg-leaf/30 px-3 py-1">{{ trip.budget }} $</span>
+              <span v-if="trip.budget" class="rounded-full bg-leaf/30 px-3 py-1">{{ trip.budget }} CAD$</span>
             </div>
 
-            <p class="mt-4 mb-1 text-sm text-gray-500">{{ store.progress(trip.id_trip) }} % prêt</p>
+            <p class="mt-4 mb-1 text-sm text-gray-500">{{ store.progress(trip.id_trip) }} % done</p>
             <div class="h-2.5 overflow-hidden rounded-full bg-gray-200">
               <div
                 class="h-2.5 rounded-full bg-coral transition-all"

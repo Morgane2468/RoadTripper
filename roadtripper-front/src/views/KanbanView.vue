@@ -24,17 +24,17 @@ function tasksWithStatus(status) {
 
 <template>
   <div v-if="trip">
-    <PageHeader :title="trip.name" :subtitle="trip.destination || 'Checklist de préparation'">
+    <PageHeader :title="trip.name" :subtitle="trip.destination || 'Preparation checklist'">
       <button
         @click="showModal = true"
         class="rounded-full bg-white px-6 py-3 font-bold text-coral shadow hover:bg-cream"
       >
-        + Nouvelle tâche
+        + New task
       </button>
     </PageHeader>
 
     <div class="mx-auto max-w-5xl p-6">
-      <RouterLink to="/trips" class="text-sm font-bold text-coral hover:underline">← Mes voyages</RouterLink>
+      <RouterLink to="/trips" class="text-sm font-bold text-coral hover:underline">← My trips</RouterLink>
 
       <div class="mt-3 mb-6 rounded-3xl bg-white p-4 shadow">
         <ProgressBar :percent="store.progress(route.params.id)" />
@@ -50,8 +50,8 @@ function tasksWithStatus(status) {
 
   <!-- Si l'id de l'URL ne correspond à aucun voyage -->
   <div v-else class="mx-auto max-w-xl p-6 py-16 text-center">
-    <h1 class="mb-2 text-3xl">Voyage introuvable</h1>
-    <p class="mb-4 text-gray-500">Ce voyage n'existe pas ou a été supprimé.</p>
-    <RouterLink to="/trips" class="font-bold text-coral hover:underline">Retour à mes voyages</RouterLink>
+    <h1 class="mb-2 text-3xl">Trip not found</h1>
+    <p class="mb-4 text-gray-500">This trip does not exist or has been deleted.</p>
+    <RouterLink to="/trips" class="font-bold text-coral hover:underline">Return to my trips</RouterLink>
   </div>
 </template>

@@ -10,7 +10,7 @@ const auth = useAuthStore()
 const menuOpen = ref(false)
 
 // Pages qui seront ajoutées avec le back-end (pas encore cliquables)
-const soonPages = ['Explorer', 'Calendrier', 'Budget']
+const soonPages = ['Discover', 'Calendar', 'Budget']
 
 // Première lettre de l'email, affichée dans le rond du profil
 const initial = computed(() => (auth.email ? auth.email[0].toUpperCase() : '?'))
@@ -25,16 +25,16 @@ function logout() {
 <template>
   <nav class="bg-white shadow">
     <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
-      <RouterLink to="/trips" class="font-brand text-3xl text-coral">RoadTripper</RouterLink>
+      <RouterLink to="/trips" class="font-brand text-3xl text-coral">GearUP</RouterLink>
 
       <!-- Liens (cachés sur petit écran) -->
       <div class="hidden items-center gap-6 md:flex">
-        <RouterLink to="/trips" class="font-bold hover:text-coral">Mes voyages</RouterLink>
+        <RouterLink to="/trips" class="font-bold hover:text-coral">My Trips</RouterLink>
         <span
           v-for="page in soonPages"
           :key="page"
           class="cursor-not-allowed font-bold text-gray-300"
-          title="Bientôt disponible"
+          title="Soon available"
         >
           {{ page }}
         </span>
@@ -58,14 +58,14 @@ function logout() {
         >
           <p class="truncate px-3 py-2 text-sm text-gray-500">{{ auth.name }}</p>
           <hr class="my-1 border-gray-100" />
-          <span class="block cursor-not-allowed px-3 py-2 text-gray-400">Mon profil (bientôt)</span>
-          <span class="block cursor-not-allowed px-3 py-2 text-gray-400">Paramètres (bientôt)</span>
+          <span class="block cursor-not-allowed px-3 py-2 text-gray-400">My profile (soon)</span>
+          <span class="block cursor-not-allowed px-3 py-2 text-gray-400">Settings (soon)</span>
           <hr class="my-1 border-gray-100" />
           <button
             @click="logout"
             class="block w-full rounded-xl px-3 py-2 text-left font-bold text-red-500 hover:bg-red-50"
           >
-            Déconnexion
+            Logout
           </button>
         </div>
       </div>
