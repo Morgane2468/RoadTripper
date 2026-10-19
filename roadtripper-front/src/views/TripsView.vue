@@ -20,7 +20,7 @@ function removeTrip(trip) {
 
 <template>
   <!-- Page header: handled by another team member -->
-  <PageHeader title="My trips" subtitle="Organise your trip, without stress!">
+  <PageHeader title="My trips" subtitle="Organise your trip, without stress!" class="items-center justify-between px-32">
     <button
       @click="showModal = true"
       class="rounded-full bg-white px-6 py-3 font-bold text-coral shadow hover:bg-cream"

@@ -23,8 +23,8 @@ function logout() {
 </script>
 
 <template>
-  <nav class="bg-white shadow min-h">
-    <div class="flex items-center justify-between lg:px-16 px-6 py-3">
+  <nav class="bg-white shadow">
+    <div class="flex items-center justify-between px-34 py-4">
       <RouterLink to="/trips" class="font-brand text-3xl text-coral">GearUP</RouterLink>
 
       <!-- Liens -->

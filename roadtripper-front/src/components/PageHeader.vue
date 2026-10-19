@@ -8,7 +8,7 @@ defineProps({
 
 <template>
   <header class="bg-linear-to-br from-coral to-sun text-white">
-    <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-10">
+    <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-10">
       <div>
         <h1 class="font-brand text-4xl md:text-5xl">{{ title }}</h1>
         <p class="mt-1 text-lg text-white/90">{{ subtitle }}</p>

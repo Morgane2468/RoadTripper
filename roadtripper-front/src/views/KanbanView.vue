@@ -24,7 +24,7 @@ function tasksWithStatus(status) {
 
 <template>
   <div v-if="trip">
-    <PageHeader :title="trip.name" :subtitle="trip.destination || 'Preparation checklist'">
+    <PageHeader :title="trip.name" :subtitle="trip.destination || 'Preparation checklist'" class="items-center justify-between px-32">
       <button
         @click="showModal = true"
         class="rounded-full bg-white px-6 py-3 font-bold text-coral shadow hover:bg-cream"
