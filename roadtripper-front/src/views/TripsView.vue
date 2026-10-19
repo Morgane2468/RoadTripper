@@ -18,12 +18,12 @@ function removeTrip(trip) {
 }
 </script>
 
-<template>
+<template >
   <!-- Page header -->
-  <PageHeader title="My trips" subtitle="Organise your trip, without stress!" class="mx:auto flex items-center justify-between px-14">
+  <PageHeader title="My trips" subtitle="Organise your trip, without stress!" class="mx:auto items-center justify-between px-14">
     <button
       @click="showModal = true"
-      class= "rounded-full text-white px-7 py-3 font-bold hover:bg-coral-dark -translate-y-3"
+      class= "rounded-full md:text-xl text-white px-8 py-2 font-bold hover:bg-coral-light bg-coral-dark -translate-x-2 -translate-y-3"
     >
       + New trip
     </button>

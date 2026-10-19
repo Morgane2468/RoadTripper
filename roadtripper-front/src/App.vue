@@ -10,7 +10,7 @@ const auth = useAuthStore();
 </script>
 
 <template>
-  <!-- flex-1 on the page keeps the footer at the bottom even when the page is short -->
+
   <div class="flex min-h-screen flex-col">
     <BackgroundShapes />
     <NavBar v-if="auth.token" />
