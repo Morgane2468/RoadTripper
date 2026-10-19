@@ -1,4 +1,4 @@
-<!-- LoginView : page de connexion (validation du formulaire, puis connexion simulée). -->
+<!-- LoginView : page de connexion -->
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
@@ -16,14 +16,14 @@ const submitted = ref(false)
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 const emailError = computed(() => {
-  if (!email.value.trim()) return "L'adresse email est obligatoire."
-  if (!EMAIL_REGEX.test(email.value.trim())) return 'Entre une adresse email valide (ex. nom@exemple.com).'
+  if (!email.value.trim()) return "Email address is required."
+  if (!EMAIL_REGEX.test(email.value.trim())) return 'Please enter a valid email address (e.g., name@company.com).'
   return ''
 })
 
 const passwordError = computed(() => {
-  if (!password.value) return 'Le mot de passe est obligatoire.'
-  if (password.value.length < 8) return 'Le mot de passe doit contenir au moins 8 caractères.'
+  if (!password.value) return 'Password is required.'
+  if (password.value.length < 8) return 'The password must contain at least 8 characters.'
   return ''
 })
 
@@ -37,7 +37,7 @@ function submit() {
 </script>
 
 <template>
-  <AuthLayout title="Content de te revoir !" subtitle="Connecte-toi pour retrouver tes voyages.">
+  <AuthLayout title="Good to see you again !" subtitle="Connect you to find your trips.">
     <form @submit.prevent="submit" novalidate>
       <label class="mb-1 block text-sm font-bold" for="email">Email</label>
       <input
@@ -45,19 +45,19 @@ function submit() {
         v-model="email"
         type="email"
         autocomplete="email"
-        placeholder="nom@exemple.com"
+        placeholder="name@company.com"
         class="w-full rounded-2xl border-2 p-2 focus:border-coral focus:outline-none"
         :class="submitted && emailError ? 'border-red-500' : 'border-gray-200'"
       />
       <p v-if="submitted && emailError" class="mt-1 text-sm text-red-500">{{ emailError }}</p>
 
-      <label class="mt-4 mb-1 block text-sm font-bold" for="password">Mot de passe</label>
+      <label class="mt-4 mb-1 block text-sm font-bold" for="password">Password</label>
       <input
         id="password"
         v-model="password"
         type="password"
         autocomplete="current-password"
-        placeholder="8 caractères minimum"
+        placeholder="8 characters minimum"
         class="w-full rounded-2xl border-2 p-2 focus:border-coral focus:outline-none"
         :class="submitted && passwordError ? 'border-red-500' : 'border-gray-200'"
       />
@@ -67,12 +67,12 @@ function submit() {
         type="submit"
         class="mt-6 w-full rounded-full bg-coral p-3 font-bold text-white hover:bg-coral-dark"
       >
-        C'est parti !
+        Let's begin !
       </button>
 
       <p class="mt-4 text-center text-sm text-gray-500">
-        Pas encore de compte ?
-        <RouterLink to="/register" class="font-bold text-coral hover:underline">Créer un compte</RouterLink>
+        Don't have an account yet?
+        <RouterLink to="/register" class="font-bold text-coral hover:underline">Create an account</RouterLink>
       </p>
     </form>
   </AuthLayout>

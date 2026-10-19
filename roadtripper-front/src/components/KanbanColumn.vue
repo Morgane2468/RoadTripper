@@ -47,6 +47,6 @@ function onChange(event) {
       </template>
     </draggable>
 
-    <p v-if="tasks.length === 0" class="text-sm text-gray-400">Glisse une tâche ici</p>
+    <p v-if="tasks.length === 0" class="text-sm text-gray-400">Put a task here</p>
   </div>
 </template>

@@ -42,7 +42,7 @@ function submit() {
 </script>
 
 <template>
-  <AuthLayout title="Rejoins l'aventure !" subtitle="Crée ton compte en 30 secondes.">
+  <AuthLayout title="Join the adventure !" subtitle="Create your account in 30 seconds.">
     <form @submit.prevent="submit" novalidate>
       <label class="mb-1 block text-sm font-bold" for="email">Email</label>
       <input
@@ -50,25 +50,25 @@ function submit() {
         v-model="email"
         type="email"
         autocomplete="email"
-        placeholder="nom@exemple.com"
+        placeholder="name@company.com"
         class="w-full rounded-2xl border-2 p-2 focus:border-coral focus:outline-none"
         :class="submitted && emailError ? 'border-red-500' : 'border-gray-200'"
       />
       <p v-if="submitted && emailError" class="mt-1 text-sm text-red-500">{{ emailError }}</p>
 
-      <label class="mt-4 mb-1 block text-sm font-bold" for="password">Mot de passe</label>
+      <label class="mt-4 mb-1 block text-sm font-bold" for="password">Password</label>
       <input
         id="password"
         v-model="password"
         type="password"
         autocomplete="new-password"
-        placeholder="8 caractères minimum"
+        placeholder="8 characters minimum"
         class="w-full rounded-2xl border-2 p-2 focus:border-coral focus:outline-none"
         :class="submitted && passwordError ? 'border-red-500' : 'border-gray-200'"
       />
       <p v-if="submitted && passwordError" class="mt-1 text-sm text-red-500">{{ passwordError }}</p>
 
-      <label class="mt-4 mb-1 block text-sm font-bold" for="confirm">Confirmer le mot de passe</label>
+      <label class="mt-4 mb-1 block text-sm font-bold" for="confirm">Confirm Password</label>
       <input
         id="confirm"
         v-model="confirm"
@@ -83,12 +83,12 @@ function submit() {
         type="submit"
         class="mt-6 w-full rounded-full bg-coral p-3 font-bold text-white hover:bg-coral-dark"
       >
-        Créer mon compte
+        Create an account
       </button>
 
       <p class="mt-4 text-center text-sm text-gray-500">
-        Déjà un compte ?
-        <RouterLink to="/login" class="font-bold text-coral hover:underline">Se connecter</RouterLink>
+        Already have an account?
+        <RouterLink to="/login" class="font-bold text-coral hover:underline">Log in</RouterLink>
       </p>
     </form>
   </AuthLayout>

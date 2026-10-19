@@ -33,7 +33,7 @@ function tasksWithStatus(status) {
       </button>
     </PageHeader>
 
-    <div class="mx-auto max-w-5xl p-6">
+    <div class= "lg:px-16 p-6">
       <RouterLink to="/trips" class="text-sm font-bold text-coral hover:underline">← My trips</RouterLink>
 
       <div class="mt-3 mb-6 rounded-3xl bg-white p-4 shadow">

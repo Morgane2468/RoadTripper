@@ -24,11 +24,11 @@ function logout() {
 
 <template>
   <nav class="bg-white shadow min-h">
-    <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
+    <div class="flex items-center justify-between lg:px-16 px-6 py-3">
       <RouterLink to="/trips" class="font-brand text-3xl text-coral">GearUP</RouterLink>
 
-      <!-- Liens (cachés sur petit écran) -->
-      <div class="hidden items-center gap-3 md:flex">
+      <!-- Liens -->
+      <div class="hidden items-center gap-3 md:flex translate-x-62">
         <RouterLink to="/trips" class="font-bold hover:text-coral">My Trips</RouterLink>
         <span
           v-for="page in soonPages"
