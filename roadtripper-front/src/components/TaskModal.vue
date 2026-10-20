@@ -32,7 +32,7 @@ function save() {
         v-model="title"
         @keyup.enter="save"
         type="text"
-        placeholder="Ex. Vérifier passeport"
+        placeholder="Ex. Check passport"
         class="mb-3 w-full rounded-2xl border-2 border-gray-200 p-2 focus:border-coral focus:outline-none"
       />
 
