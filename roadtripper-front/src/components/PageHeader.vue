@@ -9,7 +9,7 @@ defineProps({
 <template>
   <header class="w-[47%] py-4">
     <div
-      class="relative flex h-[102px] flex-wrap items-center justify-between gap-2 overflow-hidden rounded-full bg-linear-to-br from-coral to-sun px-6 py-6 shadow-lg shadow-coral/30"
+      class="relative flex h-[102px] flex-wrap items-center justify-between gap-2 overflow-hidden rounded-full bg-night px-6 py-6 shadow-lg shadow-night/30"
     >
       <!-- Décor : montagnes et trajet d'avion, uniquement derrière le bouton (à droite) -->
       <svg
@@ -35,9 +35,9 @@ defineProps({
         />
       </svg>
 
-      <!-- Liseré pointillé façon billet / tampon -->
+      <!-- Liseré pointillé -->
       <div
-        class="pointer-events-none absolute inset-1.5 rounded-full border border-dashed border-white/40"
+        class="pointer-events-none absolute inset-1.5 rounded-full border-b-2 border-dashed border-sun/50"
         aria-hidden="true"
       />
 
@@ -45,7 +45,7 @@ defineProps({
         <h1 class="font-brand text-white text-3xl md:text-4xl translate-x-6 -translate-y-2">
           {{ title }}
         </h1>
-        <p class="mt-1 text-lg text-white/90 py-1 translate-x-6">{{ subtitle }}</p>
+        <p class="mt-1 text-lg text-white/90 translate-x-6">{{ subtitle }}</p>
       </div>
       <div class="relative z-10">
         <slot />

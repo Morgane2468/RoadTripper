@@ -24,16 +24,16 @@ function tasksWithStatus(status) {
 
 <template>
   <div v-if="trip">
-    <PageHeader :title="trip.name" :subtitle="trip.destination || 'Preparation checklist'" class="items-center justify-between px-32">
+    <PageHeader :title="trip.name" :subtitle="trip.destination || 'Preparation checklist'" class="mx:auto items-center justify-between px-14">
       <button
         @click="showModal = true"
-        class="rounded-full bg-white px-6 py-3 font-bold text-coral shadow hover:bg-cream"
+        class= "rounded-full md:text-xl text-white px-8 py-2 font-bold hover:bg-night-light -translate-x-2 -translate-y-3"
       >
         + New task
       </button>
     </PageHeader>
 
-    <div class= "lg:px-16 p-6">
+    <div class= " p-6 mx-auto max-w-7xl space-y-10 px-8 py-8">
       <RouterLink to="/trips" class="text-sm font-bold text-coral hover:underline">← My trips</RouterLink>
 
       <div class="mt-3 mb-6 rounded-3xl bg-white p-4 shadow">

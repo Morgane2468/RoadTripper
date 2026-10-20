@@ -11,7 +11,7 @@ const auth = useAuthStore();
 
 <template>
 
-  <div class="flex min-h-screen flex-col">
+  <div class="relative min-h-screen ">
     <BackgroundShapes />
     <NavBar v-if="auth.token" />
     <div class="flex-1">

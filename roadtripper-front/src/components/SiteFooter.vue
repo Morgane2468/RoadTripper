@@ -51,7 +51,7 @@ const soonPages = ["Discover", "Calendar", "Budget"];
 
     <div class="relative mx-auto grid max-w-7xl gap-8 px-8 py-0 md:grid-cols-4">
       <div class="md:col-span-2">
-        <p class="font-brand text-3xl text-sun">{{ APP_NAME }}</p>
+        <p class="font-brand text-3xl text-white">{{ APP_NAME }}</p>
         <p class="mt-2 max-w-sm text-white/80">
           Plan every road trip step by step: one board per trip, ready-made checklists and a clear
           view of your progress.
@@ -59,22 +59,22 @@ const soonPages = ["Discover", "Calendar", "Budget"];
       </div>
 
       <div>
-        <p class="mb-2 font-bold text-sun">Explore</p>
+        <p class="mb-2 font-bold text-white">Explore</p>
         <ul class="space-y-1">
-          <li><RouterLink to="/trips" class="hover:text-sun">My Trips</RouterLink></li>
+          <li><RouterLink to="/trips" class="hover:text-white">My Trips</RouterLink></li>
           <li v-for="page in soonPages" :key="page" class="text-white/40">{{ page }} (soon)</li>
         </ul>
       </div>
 
       <div>
-        <p class="mb-2 font-bold text-sun">Project</p>
+        <p class="mb-2 font-bold text-white">Project</p>
         <ul class="space-y-1">
           <li>
             <a
               href="https://github.com/Morgane2468/RoadTripper"
               target="_blank"
               rel="noopener"
-              class="hover:text-sun"
+              class="hover:text-white"
             >
               GitHub repository
             </a>
@@ -86,7 +86,7 @@ const soonPages = ["Discover", "Calendar", "Budget"];
     </div>
 
     <!-- Route en pointillés avant la ligne de copyright -->
-    <div class="relative border-t-2 border-dashed border-sun/40">
+    <div class="relative border-t-2 border-dashed border-white/40">
       <div
         class="mx-auto flex max-w-7xl flex-wrap justify-between gap-2 px-8 py-3 text-sm text-white/70"
       >

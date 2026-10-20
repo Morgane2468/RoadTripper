@@ -25,14 +25,14 @@ function logout() {
 <template>
   <nav class="relative bg-night shadow-lg">
     <div class="mx:auto flex items-center justify-between px-6 py-7">
-      <RouterLink to="/trips" class="font-brand text-4xl text-sun">GearUP</RouterLink>
+      <RouterLink to="/trips" class="font-brand text-4xl text-white">GearUP</RouterLink>
 
       <!-- Liens -->
       <div class="hidden items-center text-xl gap-3 md:flex translate-x-100">
         <RouterLink
           to="/trips"
-          active-class="bg-sun !text-night"
-          class="rounded-full px-4 py-1 font-bold text-white transition-colors hover:text-sun"
+          active-class="bg-white !text-night"
+          class="rounded-full px-4 py-1 font-bold text-white transition-colors"
         >
           My Trips
         </RouterLink>
@@ -50,7 +50,7 @@ function logout() {
       <div class="relative">
         <button
           @click="menuOpen = !menuOpen"
-          class="flex h-11 w-11 items-center justify-center rounded-full bg-sun font-bold text-night ring-2 ring-white/20 transition-transform hover:scale-105"
+          class="flex h-11 w-11 items-center justify-center rounded-full bg-white font-bold text-night ring-2 ring-white/20 transition-transform hover:scale-105"
         >
           {{ initial }}
         </button>
