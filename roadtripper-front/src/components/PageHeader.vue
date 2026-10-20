@@ -1,4 +1,4 @@
-<!-- PageHeader : bandeau coloré en haut des pages, avec un titre et un bouton optionnel (slot). -->
+<!-- PageHeader : bandeau pour chaque page -->
 <script setup>
 defineProps({
   title: { type: String, required: true },
@@ -11,7 +11,7 @@ defineProps({
     <div
       class="relative flex h-[102px] flex-wrap items-center justify-between gap-2 overflow-hidden rounded-full bg-night px-6 py-6 shadow-lg shadow-night/30"
     >
-      <!-- Décor : montagnes et trajet d'avion, uniquement derrière le bouton (à droite) -->
+      <!-- Décor : montagnes et trajet d'avion, par ia -->
       <svg
         viewBox="0 0 300 102"
         preserveAspectRatio="xMaxYMax slice"
@@ -34,8 +34,9 @@ defineProps({
           fill-opacity="0.1"
         />
       </svg>
+      <!-- Fin du décor -->
 
-      <!-- Liseré pointillé -->
+      <!-- Liseré pointillé en bas du bandeau-->
       <div
         class="pointer-events-none absolute inset-1.5 rounded-full border-b-2 border-dashed border-sun/50"
         aria-hidden="true"

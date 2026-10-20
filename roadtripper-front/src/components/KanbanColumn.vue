@@ -1,4 +1,4 @@
-<!-- KanbanColumn : une colonne du Kanban (To Do, Doing ou Done) dont on peut glisser les cartes. -->
+<!-- KanbanColumn : une colonne du Kanban (To Do, Doing ou Done), on peut glisser les cartes. -->
 <script setup>
 import draggable from 'vuedraggable'
 import TaskCard from './TaskCard.vue'
@@ -11,14 +11,14 @@ const props = defineProps({
 
 const store = useTripsStore()
 
-// Couleur de fond et pastille de chaque colonne
+// Les couleurs de fond
 const COLORS = {
   'To Do': { bg: 'bg-sun/20', dot: 'bg-sun' },
   Doing: { bg: 'bg-lagoon/20', dot: 'bg-lagoon' },
   Done: { bg: 'bg-leaf/20', dot: 'bg-leaf' },
 }
 
-// Quand une carte est déposée dans cette colonne, on change son statut
+// Changement dynamique du statut
 function onChange(event) {
   if (event.added) {
     store.setStatus(event.added.element.id_todo, props.title)

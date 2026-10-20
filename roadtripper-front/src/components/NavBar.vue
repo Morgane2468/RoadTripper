@@ -9,10 +9,10 @@ const auth = useAuthStore();
 
 const menuOpen = ref(false);
 
-// Pages qui seront ajoutées avec le back-end (pas encore cliquables)
+// Pages pour plus tard (back end)
 const soonPages = ["Discover", "Calendar", "Budget"];
 
-// Première lettre de l'email, affichée dans le rond du profil
+// Première lettre affichée dans le rond du profil
 const initial = computed(() => (auth.email ? auth.email[0].toUpperCase() : "?"));
 
 function logout() {
@@ -55,7 +55,7 @@ function logout() {
           {{ initial }}
         </button>
 
-        <!-- Zone invisible pour fermer les menus ouvert en cliquant à côté -->
+        <!-- Zone invisible pour fermer les menus ouverts -->
         <div v-if="menuOpen" class="fixed inset-0 z-10" @click="menuOpen = false" />
 
         <div
@@ -77,7 +77,7 @@ function logout() {
       </div>
     </div>
 
-    <!-- Route en pointillés le long du bord bas -->
+    <!-- Route en pointillés en bas de la barre -->
     <div class="absolute inset-x-6 bottom-1.5 border-b-2 border-dashed border-sun/40" />
   </nav>
 </template>
