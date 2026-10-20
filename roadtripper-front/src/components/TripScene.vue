@@ -1,4 +1,4 @@
-<!-- TripScene: small illustration (beach, mountain, city...) chosen from the trip type. -->
+<!--illustration made by AI for the different trip types (beach, snow, mountain, desert, lake, city, countryside)-->
 <script setup>
 import { computed } from 'vue'
 
@@ -6,7 +6,6 @@ const props = defineProps({
   type: { type: String, default: '' },
 })
 
-// Keywords (French and English) used to recognize each trip type
 const SCENES = [
   { name: 'beach', words: ['plage', 'beach'] },
   { name: 'snow', words: ['neige', 'snow', 'ski', 'winter', 'hiver'] },
@@ -17,7 +16,6 @@ const SCENES = [
   { name: 'countryside', words: ['campagne', 'country', 'camp', 'forest', 'forêt'] },
 ]
 
-// If no keyword matches (or there is no type), we show a road
 const scene = computed(() => {
   const type = (props.type || '').toLowerCase()
   const found = SCENES.find((s) => s.words.some((word) => type.includes(word)))
@@ -32,7 +30,6 @@ const scene = computed(() => {
     role="img"
     :aria-label="scene + ' illustration'"
   >
-    <!-- Beach -->
     <g v-if="scene === 'beach'">
       <rect width="400" height="200" fill="#ffe7c2" />
       <circle cx="310" cy="62" r="32" fill="#ffc93c" />
@@ -45,7 +42,6 @@ const scene = computed(() => {
       <rect x="160" y="168" width="64" height="16" rx="4" fill="#7bd957" />
     </g>
 
-    <!-- Snow -->
     <g v-else-if="scene === 'snow'">
       <rect width="400" height="200" fill="#cfe8f7" />
       <circle cx="330" cy="50" r="24" fill="#fff7ea" />
@@ -64,7 +60,6 @@ const scene = computed(() => {
       <circle cx="380" cy="100" r="3" fill="#ffffff" />
     </g>
 
-    <!-- Mountain -->
     <g v-else-if="scene === 'mountain'">
       <rect width="400" height="200" fill="#ffe7c2" />
       <circle cx="70" cy="55" r="26" fill="#ffc93c" />
@@ -77,7 +72,6 @@ const scene = computed(() => {
       <polygon points="320,180 340,128 360,180" fill="#2f9e44" />
     </g>
 
-    <!-- Desert -->
     <g v-else-if="scene === 'desert'">
       <rect width="400" height="200" fill="#ffe0b0" />
       <circle cx="200" cy="100" r="48" fill="#ff9a62" />
@@ -90,7 +84,6 @@ const scene = computed(() => {
       <rect x="326" y="140" width="14" height="9" rx="4" fill="#2f9e44" />
     </g>
 
-    <!-- Lake -->
     <g v-else-if="scene === 'lake'">
       <rect width="400" height="200" fill="#ffe7c2" />
       <circle cx="310" cy="58" r="28" fill="#ffc93c" />
@@ -103,7 +96,6 @@ const scene = computed(() => {
       <polygon points="188,98 188,128 214,128" fill="#fff7ea" />
     </g>
 
-    <!-- City -->
     <g v-else-if="scene === 'city'">
       <rect width="400" height="200" fill="#ffe7c2" />
       <circle cx="75" cy="68" r="30" fill="#ffc93c" />
@@ -126,7 +118,6 @@ const scene = computed(() => {
       <rect x="353" y="138" width="10" height="10" fill="#ffc93c" />
     </g>
 
-    <!-- Countryside -->
     <g v-else-if="scene === 'countryside'">
       <rect width="400" height="200" fill="#ffe7c2" />
       <circle cx="325" cy="55" r="28" fill="#ffc93c" />
@@ -138,7 +129,6 @@ const scene = computed(() => {
       <circle cx="300" cy="122" r="26" fill="#2f9e44" />
     </g>
 
-    <!-- Road (default) -->
     <g v-else>
       <rect width="400" height="200" fill="#ffe7c2" />
       <circle cx="200" cy="82" r="36" fill="#ffc93c" />

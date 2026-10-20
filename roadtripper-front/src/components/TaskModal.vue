@@ -1,4 +1,4 @@
-<!-- TaskModal : fenêtre pour ajouter une tâche à un voyage. -->
+<!-- Fenêtre pour ajouter une tâche à un voyage -->
 <script setup>
 import { ref } from 'vue'
 import { useTripsStore } from '@/stores/trips'
@@ -20,7 +20,6 @@ function save() {
 </script>
 
 <template>
-  <!-- Fond sombre-->
   <div
     class="fixed inset-0 z-10 flex items-center justify-center bg-black/40 p-4"
     @click.self="emit('close')"

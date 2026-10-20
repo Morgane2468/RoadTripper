@@ -1,4 +1,4 @@
-<!-- KanbanView : page d'un voyage avec sa progression et son tableau Kanban (To Do, Doing, Done). -->
+// page d'un voyage avec sa progression et son tableau
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
@@ -14,7 +14,6 @@ const showModal = ref(false)
 
 const statuses = ['To Do', 'Doing', 'Done']
 
-// Le voyage affiché, trouvé grâce à l'id dans l'URL (/trips/:id)
 const trip = computed(() => store.trips.find((t) => t.id_trip === Number(route.params.id)))
 
 function tasksWithStatus(status) {

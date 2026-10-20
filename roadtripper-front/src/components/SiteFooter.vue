@@ -1,28 +1,25 @@
-<!-- SiteFooter: footer shown under every page when the user is logged in. -->
+<!-- footer dont le design a été fait principalement par IA (montagnes) -->
 <script setup>
 import { RouterLink } from "vue-router";
 
 const APP_NAME = "GearUP";
 const team = ["Valentin", "Morgane", "Erwan", "Mathieu"];
 
-// Pages that will be added with the back-end
+// pages qui vont etre ajoutées apres avec back-end
 const soonPages = ["Discover", "Calendar", "Budget"];
 </script>
 
-<template>
+<template> // dessins footer IA
   <footer class="relative mt-40 bg-night text-white">
-    <!-- Montagnes : deux plans, sommets enneigés et sapins, qui relient la page au footer -->
     <svg
       viewBox="0 0 1440 160"
       class="pointer-events-none absolute inset-x-0 bottom-full -mb-px block h-auto w-full"
       aria-hidden="true"
     >
-      <!-- Plan arrière : grandes montagnes -->
       <path
         fill="#3b4283"
         d="M0 160 L0 112 L160 52 L270 102 L420 28 L570 112 L710 58 L870 122 L1030 38 L1190 110 L1330 60 L1440 100 L1440 160 Z"
       />
-      <!-- Sommets enneigés -->
       <g fill="#dfe6ff">
         <polygon points="420,28 358,58 382,52 406,68 430,54 454,66 473,58" />
         <polygon points="1030,38 972,64 994,58 1014,72 1038,60 1062,70 1080,62" />
@@ -31,7 +28,6 @@ const soonPages = ["Discover", "Calendar", "Budget"];
         <polygon points="1330,60 1296,76 1312,72 1326,82 1340,72 1358,78 1366,74" />
       </g>
 
-      <!-- Plan avant : même couleur que le footer -->
       <g fill="#1f2347">
         <path
           d="M0 160 L0 122 L110 92 L200 126 L340 74 L470 132 L610 98 L740 140 L900 88 L1040 136 L1190 96 L1320 132 L1440 110 L1440 160 Z"
@@ -85,7 +81,6 @@ const soonPages = ["Discover", "Calendar", "Budget"];
       </div>
     </div>
 
-    <!-- Route en pointillés avant la ligne de copyright -->
     <div class="relative border-t-2 border-dashed border-white/40">
       <div
         class="mx-auto flex max-w-7xl flex-wrap justify-between gap-2 px-8 py-3 text-sm text-white/70"

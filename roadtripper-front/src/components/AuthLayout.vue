@@ -2,8 +2,8 @@
 <script setup>
 defineProps({
   title: { type: String, required: true },
-  subtitle: { type: String, default: '' },
-})
+  subtitle: { type: String, default: "" },
+});
 </script>
 
 <template>
@@ -55,8 +55,26 @@ defineProps({
       <rect x="760" y="116" width="6" height="74" fill="#fff7ea" />
       <polygon points="766,122 820,122 833,133 820,144 766,144" fill="#fff7ea" />
       <polygon points="760,150 706,150 693,161 706,172 760,172" fill="#ffc93c" />
-      <text x="774" y="137" font-family="Nunito, sans-serif" font-size="11" font-weight="800" fill="#d9482a">Lisbon</text>
-      <text x="714" y="165" font-family="Nunito, sans-serif" font-size="11" font-weight="800" fill="#1f2347">Kyoto</text>
+      <text
+        x="774"
+        y="137"
+        font-family="Nunito, sans-serif"
+        font-size="11"
+        font-weight="800"
+        fill="#d9482a"
+      >
+        Lisbon
+      </text>
+      <text
+        x="714"
+        y="165"
+        font-family="Nunito, sans-serif"
+        font-size="11"
+        font-weight="800"
+        fill="#1f2347"
+      >
+        Kyoto
+      </text>
 
       <!-- Van -->
       <g transform="translate(330 150)">

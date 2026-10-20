@@ -1,5 +1,4 @@
 // Pas encore utilisé : servira au Milestone 3 pour appeler l'API Node.js avec le token.
-// Pour l'instant, l'application utilise des données simulées (src/mock/data.json).
 const API_URL = 'http://localhost:3000/api'
 
 export async function apiFetch(path, options = {}) {

@@ -1,4 +1,4 @@
-<!-- TripModal : formulaire de création d'un voyage, avec des tâches suggérées selon le type de voyage. -->
+<!-- formulaire de création d'un voyage, avec des tâches suggérées selon le type de voyage -->
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useTripsStore } from '@/stores/trips'
@@ -7,7 +7,6 @@ import { TRIP_TEMPLATES } from '@/data/tripTemplates'
 const emit = defineEmits(['close'])
 const store = useTripsStore()
 
-// Un ref par champ du formulaire (ils seront enregistrés dans MySQL )
 const name = ref('')
 const destination = ref('')
 const tripType = ref('')
@@ -20,13 +19,13 @@ const visibility = ref('Private')
 const description = ref('')
 const submitted = ref(false)
 
-// Types de voyage proposés
+// types de voyage proposés
 const tripTypes = Object.keys(TRIP_TEMPLATES)
 
-// Tâches suggérées pour le type choisi
+// tâches suggérées pour le type choisi
 const suggestions = computed(() => TRIP_TEMPLATES[tripType.value] || [])
 
-// Titres des tâches cochées
+// titres des tâches cochées
 const chosen = ref([])
 watch(tripType, () => {
   chosen.value = suggestions.value.map((task) => task.title)
@@ -45,7 +44,7 @@ function save() {
   submitted.value = true
   if (nameError.value || dateError.value) return
 
-  // On garde seulement les tâches suggérées qui sont restées cochées
+  // garde seulement les tâches suggérées qui sont restées cochées
   const tasks = suggestions.value.filter((task) => chosen.value.includes(task.title))
 
   store.addTrip(
@@ -68,7 +67,6 @@ function save() {
 </script>
 
 <template>
-  <!-- Fond sombre : un clic dessus ferme la fenêtre -->
   <div class="fixed inset-0 z-30 overflow-y-auto bg-black/40 p-4" @click.self="emit('close')">
     <form
       @submit.prevent="save"
@@ -110,7 +108,6 @@ function save() {
           </select>
         </div>
 
-        <!-- Tâches suggérées : cochées par défaut, l'utilisateur décoche celles qu'il ne veut pas -->
         <div v-if="suggestions.length" class="rounded-2xl bg-sun/20 p-4 sm:col-span-2">
           <p class="text-sm font-bold">Suggested tasks for « {{ tripType }} »</p>
           <p class="mb-3 text-xs text-gray-500">
