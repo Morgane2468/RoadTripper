@@ -11,6 +11,8 @@ const auth = useAuthStore()
 const email = ref('')
 const password = ref('')
 const submitted = ref(false)
+const busy = ref(false)
+const serverError = ref('')
 
 // Format : texte@texte.extension, sans espace
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
@@ -27,12 +29,21 @@ const passwordError = computed(() => {
   return ''
 })
 
-function submit() {
+async function submit() {
+  if (busy.value) return
+  serverError.value = ''
   submitted.value = true
   if (emailError.value || passwordError.value) return
 
-  auth.login(email.value.trim())
-  router.push('/trips')
+  busy.value = true
+  try {
+    await auth.login(email.value.trim(), password.value)
+    await router.push('/trips')
+  } catch (error) {
+    serverError.value = error.response?.data?.message || 'Unable to reach the server.'
+  } finally {
+    busy.value = false
+  }
 }
 </script>
 
@@ -75,5 +86,6 @@ function submit() {
         <RouterLink to="/register" class="font-bold text-coral hover:underline">Create an account</RouterLink>
       </p>
     </form>
+    <p v-if="serverError" role="alert" class="text-sm text-red-700">{{ serverError }}</p>
   </AuthLayout>
 </template>

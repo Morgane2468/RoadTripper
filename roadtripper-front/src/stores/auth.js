@@ -1,26 +1,36 @@
-// Store Pinia de l'authentification : garde le token et l'email de l'utilisateur connecté.
 import { defineStore } from 'pinia'
+import http from '@/services/api'
+import { useTripsStore } from '@/stores/trips'
 
 export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    token: localStorage.getItem('token'),
-    email: localStorage.getItem('email'),
-  }),
-
+  state: () => ({ user: null }),
+  getters: {
+    email: (state) => state.user?.email,
+  },
   actions: {
-    login(email) {
-      // TEMPORAIRE : au Milestone 3, le token viendra de l'API Node.js
-      this.token = 'fake-token'
-      this.email = email
-      localStorage.setItem('token', this.token)
-      localStorage.setItem('email', email)
+    async register(email, password) {
+      await http.post('/user', { email, password })
     },
-
-    logout() {
-      this.token = null
-      this.email = null
-      localStorage.removeItem('token')
-      localStorage.removeItem('email')
+    async login(email, password) {
+      const { data } = await http.post('/user/login', { email, password })
+      useTripsStore().$reset()
+      this.user = data
+    },
+    async restore() {
+      try {
+        const { data } = await http.get('/user/auth')
+        if (this.user?.id_user !== data.id_user) useTripsStore().$reset()
+        this.user = data
+      } catch (error) {
+        this.user = null
+        useTripsStore().$reset()
+        if (error.response?.status !== 401) throw error
+      }
+    },
+    async logout() {
+      await http.post('/user/logout')
+      this.user = null
+      useTripsStore().$reset()
     },
   },
 })

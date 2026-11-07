@@ -15,14 +15,21 @@ const soonPages = ['Discover', 'Calendar', 'Budget']
 // Première lettre de l'email, affichée dans le rond du profil
 const initial = computed(() => (auth.email ? auth.email[0].toUpperCase() : '?'))
 
-function logout() {
+const logoutError = ref('')
+
+async function logout() {
   menuOpen.value = false
-  auth.logout()
-  router.push('/login')
+  try {
+    await auth.logout()
+    await router.push('/login')
+  } catch {
+    logoutError.value = 'Unable to sign out. Please try again.'
+  }
 }
 </script>
 
 <template>
+  <p v-if="logoutError" role="alert" class="text-center text-red-700">{{ logoutError }}</p>
   <nav class="bg-white shadow">
     <div class="mx:auto flex items-center justify-between px-6 py-7 ">
       <RouterLink to="/trips" class="font-brand text-4xl text-coral">GearUP</RouterLink>
@@ -56,7 +63,7 @@ function logout() {
           v-if="menuOpen"
           class="absolute right-0 z-20 mt-2 w-56 rounded-2xl bg-white p-2 shadow-lg"
         >
-          <p class="truncate px-3 py-2 text-sm text-gray-500">{{ auth.name }}</p>
+          <p class="truncate px-3 py-2 text-sm text-gray-500">{{ auth.email }}</p>
           <hr class="my-1 border-gray-100" />
           <span class="block cursor-not-allowed px-3 py-2 text-gray-400">My profile (soon)</span>
           <span class="block cursor-not-allowed px-3 py-2 text-gray-400">Settings (soon)</span>

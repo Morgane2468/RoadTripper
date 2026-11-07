@@ -2,14 +2,18 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import AuthLayout from '@/components/AuthLayout.vue'
 
 const router = useRouter()
+const auth = useAuthStore()
 
 const email = ref('')
 const password = ref('')
 const confirm = ref('')
 const submitted = ref(false)
+const busy = ref(false)
+const serverError = ref('')
 
 // Format : texte@texte.extension, sans espace
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
@@ -32,12 +36,21 @@ const confirmError = computed(() => {
   return ''
 })
 
-function submit() {
+async function submit() {
+  if (busy.value) return
+  serverError.value = ''
   submitted.value = true
   if (emailError.value || passwordError.value || confirmError.value) return
 
-  // TEMPORAIRE : le vrai enregistrement (API + MySQL + mot de passe hashé) viendra au Milestone 3
-  router.push('/login')
+  busy.value = true
+  try {
+    await auth.register(email.value.trim(), password.value)
+    await router.push('/login')
+  } catch (error) {
+    serverError.value = error.response?.data?.message || 'Unable to reach the server.'
+  } finally {
+    busy.value = false
+  }
 }
 </script>
 
@@ -91,5 +104,6 @@ function submit() {
         <RouterLink to="/login" class="font-bold text-coral hover:underline">Log in</RouterLink>
       </p>
     </form>
+    <p v-if="serverError" role="alert" class="text-sm text-red-700">{{ serverError }}</p>
   </AuthLayout>
 </template>
