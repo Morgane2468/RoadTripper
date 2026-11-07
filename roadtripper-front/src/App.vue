@@ -13,7 +13,7 @@ const trips = useTripsStore();
 
 <template>
 
-  <div class="flex min-h-screen flex-col">
+  <div class="relative min-h-screen ">
     <BackgroundShapes />
     <NavBar v-if="auth.user" />
     <div class="flex-1">

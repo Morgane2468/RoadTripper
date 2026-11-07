@@ -1,4 +1,4 @@
-<!-- TemplatesSection: shows the trip types and their suggested tasks on a single row. -->
+<!-- shows the trip types and their suggested tasks on a single row -->
 <script setup>
 import { TRIP_TEMPLATES } from '@/data/tripTemplates'
 import TripScene from '@/components/TripScene.vue'
@@ -17,7 +17,6 @@ const templates = Object.keys(TRIP_TEMPLATES).map((type) => ({
       Pick a trip type in the "New trip" form and we add a ready-made checklist for you.
     </p>
 
-    <!-- Single row: each card takes an equal share of the width (it scrolls if there is really not enough room) -->
     <div class="flex gap-4 overflow-x-auto pt-1 pb-4">
       <div
         v-for="item in templates"

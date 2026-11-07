@@ -1,4 +1,4 @@
-<!-- TripRow: one wide row of the trip list (illustration, details, tasks per status, progress). -->
+<!-- one wide row of the trip list (illustration, details, tasks per status, progress) -->
 <script setup>
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
@@ -25,7 +25,7 @@ const statuses = computed(() => {
 
 <template>
   <div class="flex flex-col overflow-hidden rounded-3xl bg-white shadow transition hover:shadow-lg md:flex-row">
-    <!-- Illustration chosen from the trip type (beach, mountain...) -->
+    <!-- illustration IA qui depend du type de voyage -->
     <RouterLink :to="`/trips/${trip.id_trip}`" class="relative block min-h-36 md:w-64">
       <TripScene :type="trip.trip_type" class="absolute inset-0 h-full w-full" />
     </RouterLink>

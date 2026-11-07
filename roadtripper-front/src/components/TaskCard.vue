@@ -1,4 +1,4 @@
-<!-- TaskCard : une carte de tâche (titre, catégorie, changement de statut, suppression). -->
+<!-- une carte de tâche (titre, catégorie, changement de statut, suppression) -->
 <script setup>
 import { computed } from 'vue'
 import { useTripsStore } from '@/stores/trips'
@@ -9,7 +9,7 @@ const props = defineProps({
 
 const store = useTripsStore()
 
-// Catégorie de la tâche (Admin, Gear, Bookings...)
+// catégorie de la tâche (Admin, Gear, Bookings...)
 const category = computed(() =>
   store.categories.find((c) => c.id_category === props.task.id_category),
 )

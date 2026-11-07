@@ -1,4 +1,4 @@
-<!-- StatsStrip : 4 cartes de chiffres clés, calculés à partir des voyages et des tâches. -->
+<!-- 4 cartes de chiffres clés, calculés à partir des voyages et des tâches -->
 <script setup>
 import { computed } from 'vue'
 import { useTripsStore } from '@/stores/trips'

@@ -1,19 +1,19 @@
 <!-- NavBar : barre de navigation en haut de l'écran, avec le menu du compte et la déconnexion. -->
 <script setup>
-import { ref, computed } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { ref, computed } from "vue";
+import { RouterLink, useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
 
-const router = useRouter()
-const auth = useAuthStore()
+const router = useRouter();
+const auth = useAuthStore();
 
-const menuOpen = ref(false)
+const menuOpen = ref(false);
 
-// Pages qui seront ajoutées avec le back-end (pas encore cliquables)
-const soonPages = ['Discover', 'Calendar', 'Budget']
+// Pages pour plus tard (back end)
+const soonPages = ["Discover", "Calendar", "Budget"];
 
-// Première lettre de l'email, affichée dans le rond du profil
-const initial = computed(() => (auth.email ? auth.email[0].toUpperCase() : '?'))
+// Première lettre affichée dans le rond du profil
+const initial = computed(() => (auth.email ? auth.email[0].toUpperCase() : "?"));
 
 const logoutError = ref('')
 
@@ -35,12 +35,18 @@ async function logout() {
       <RouterLink to="/trips" class="font-brand text-4xl text-coral">GearUP</RouterLink>
 
       <!-- Liens -->
-      <div class="hidden items-center text-xl gap-5 md:flex translate-x-100">
-        <RouterLink to="/trips" class="font-bold hover:text-coral">My Trips</RouterLink>
+      <div class="hidden items-center text-xl gap-3 md:flex translate-x-100">
+        <RouterLink
+          to="/trips"
+          active-class="bg-white !text-night"
+          class="rounded-full px-4 py-1 font-bold text-white transition-colors"
+        >
+          My Trips
+        </RouterLink>
         <span
           v-for="page in soonPages"
           :key="page"
-          class="cursor-not-allowed font-bold text-gray-300"
+          class="cursor-not-allowed rounded-full px-4 py-1 font-bold text-white/30"
           title="Soon available"
         >
           {{ page }}
@@ -51,17 +57,17 @@ async function logout() {
       <div class="relative">
         <button
           @click="menuOpen = !menuOpen"
-          class="flex h-10 w-10 items-center justify-center rounded-full bg-coral font-bold text-white hover:bg-coral-dark"
+          class="flex h-11 w-11 items-center justify-center rounded-full bg-white font-bold text-night ring-2 ring-white/20 transition-transform hover:scale-105"
         >
           {{ initial }}
         </button>
 
-        <!-- Zone invisible pour fermer les menus ouvert en cliquant à côté -->
+        <!-- Zone invisible pour fermer les menus ouverts -->
         <div v-if="menuOpen" class="fixed inset-0 z-10" @click="menuOpen = false" />
 
         <div
           v-if="menuOpen"
-          class="absolute right-0 z-20 mt-2 w-56 rounded-2xl bg-white p-2 shadow-lg"
+          class="absolute right-0 z-20 mt-2 w-56 rounded-2xl bg-white p-2 text-night shadow-xl"
         >
           <p class="truncate px-3 py-2 text-sm text-gray-500">{{ auth.email }}</p>
           <hr class="my-1 border-gray-100" />
@@ -77,5 +83,8 @@ async function logout() {
         </div>
       </div>
     </div>
+
+    <!-- Route en pointillés en bas de la barre -->
+    <div class="absolute inset-x-6 bottom-1.5 border-b-2 border-dashed border-sun/40" />
   </nav>
 </template>
