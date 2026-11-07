@@ -12,10 +12,15 @@ const store = useTripsStore()
 const title = ref('')
 const category = ref('')
 
-function save() {
+const saving = ref(false)
+
+async function save() {
+  if (saving.value) return
   if (!title.value.trim()) return
-  store.addTask(props.tripId, title.value, category.value)
-  emit('close')
+  saving.value = true
+  await store.addTask(props.tripId, title.value, category.value)
+  saving.value = false
+  if (!store.error) emit('close')
 }
 </script>
 

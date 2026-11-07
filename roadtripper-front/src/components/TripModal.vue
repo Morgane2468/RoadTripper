@@ -41,14 +41,18 @@ const dateError = computed(() => {
   return ''
 })
 
-function save() {
+const saving = ref(false)
+
+async function save() {
+  if (saving.value) return
   submitted.value = true
   if (nameError.value || dateError.value) return
 
   // On garde seulement les tâches suggérées qui sont restées cochées
   const tasks = suggestions.value.filter((task) => chosen.value.includes(task.title))
 
-  store.addTrip(
+  saving.value = true
+  await store.addTrip(
     {
       name: name.value,
       trip_type: tripType.value,
@@ -63,7 +67,8 @@ function save() {
     },
     tasks,
   )
-  emit('close')
+  saving.value = false
+  if (!store.error) emit('close')
 }
 </script>
 
