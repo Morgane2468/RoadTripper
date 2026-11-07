@@ -30,9 +30,9 @@ async function logout() {
 
 <template>
   <p v-if="logoutError" role="alert" class="text-center text-red-700">{{ logoutError }}</p>
-  <nav class="bg-white shadow">
-    <div class="mx:auto flex items-center justify-between px-6 py-7 ">
-      <RouterLink to="/trips" class="font-brand text-4xl text-coral">GearUP</RouterLink>
+  <nav class="relative bg-night shadow-lg">
+    <div class="mx:auto flex items-center justify-between px-6 py-7">
+      <RouterLink to="/trips" class="font-brand text-4xl text-white">GearUP</RouterLink>
 
       <!-- Liens -->
       <div class="hidden items-center text-xl gap-3 md:flex translate-x-100">
