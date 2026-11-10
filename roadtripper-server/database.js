@@ -37,6 +37,7 @@ const Trip = sequelize.define('Trip', {
   end_date: DataTypes.DATEONLY,
   travelers: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, defaultValue: 1 },
   budget: DataTypes.DECIMAL(12, 2),
+  currency: { type: DataTypes.STRING(3), allowNull: false, defaultValue: 'CAD' },
   transport: DataTypes.STRING,
   visibility: DataTypes.STRING,
   description: DataTypes.TEXT,

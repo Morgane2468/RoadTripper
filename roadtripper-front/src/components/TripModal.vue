@@ -1,22 +1,30 @@
-<!-- formulaire de création d'un voyage, avec des tâches suggérées selon le type de voyage -->
+<!-- formulaire de création OU de modification d'un voyage (si la prop `trip` est fournie, on est en mode édition) -->
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useTripsStore } from '@/stores/trips'
 import { TRIP_TEMPLATES } from '@/data/tripTemplates'
-
+const props = defineProps({
+  trip: { type: Object, default: null },
+})
 const emit = defineEmits(['close'])
 const store = useTripsStore()
 
-const name = ref('')
-const destination = ref('')
-const tripType = ref('')
-const startDate = ref('')
-const endDate = ref('')
-const travelers = ref(1)
-const budget = ref('')
-const transport = ref('Car')
-const visibility = ref('Private')
-const description = ref('')
+// En mode édition, on pré-remplit le formulaire avec les valeurs actuelles du voyage
+const isEdit = computed(() => !!props.trip)
+const initial = props.trip || {}
+
+const currencies = ['CAD', 'USD', 'EUR', 'GBP', 'CHF', 'JPY']
+const currency = ref(initial.currency ?? 'CAD')
+const name = ref(initial.name ?? '')
+const destination = ref(initial.destination ?? '')
+const tripType = ref(initial.trip_type ?? '')
+const startDate = ref(initial.start_date ?? '')
+const endDate = ref(initial.end_date ?? '')
+const travelers = ref(initial.travelers ?? 1)
+const budget = ref(initial.budget ?? '')
+const transport = ref(initial.transport ?? 'Car')
+const visibility = ref(initial.visibility ?? 'Private')
+const description = ref(initial.description ?? '')
 const submitted = ref(false)
 
 // types de voyage proposés
@@ -40,32 +48,40 @@ const dateError = computed(() => {
   return ''
 })
 
+const travelersError = computed(() => {
+  const n = Number(travelers.value)
+  return Number.isInteger(n) && n >= 1 ? '' : 'At least 1 traveler is required.'
+})
+
 const saving = ref(false)
 
 async function save() {
   if (saving.value) return
   submitted.value = true
-  if (nameError.value || dateError.value) return
+  if (nameError.value || dateError.value || travelersError.value) return
 
-  // garde seulement les tâches suggérées qui sont restées cochées
-  const tasks = suggestions.value.filter((task) => chosen.value.includes(task.title))
+  const data = {
+    name: name.value,
+    trip_type: tripType.value,
+    destination: destination.value,
+    start_date: startDate.value,
+    end_date: endDate.value,
+    travelers: Number(travelers.value),
+    transport: transport.value,
+    visibility: visibility.value,
+    description: description.value,
+    budget: budget.value,
+    currency: currency.value,
+  }
 
   saving.value = true
-  await store.addTrip(
-    {
-      name: name.value,
-      trip_type: tripType.value,
-      destination: destination.value,
-      start_date: startDate.value,
-      end_date: endDate.value,
-      travelers: travelers.value,
-      budget: budget.value,
-      transport: transport.value,
-      visibility: visibility.value,
-      description: description.value,
-    },
-    tasks,
-  )
+  if (isEdit.value) {
+    await store.updateTrip(props.trip.id_trip, data)
+  } else {
+    // garde seulement les tâches suggérées qui sont restées cochées
+    const tasks = suggestions.value.filter((task) => chosen.value.includes(task.title))
+    await store.addTrip(data, tasks)
+  }
   saving.value = false
   if (!store.error) emit('close')
 }
@@ -78,7 +94,7 @@ async function save() {
       novalidate
       class="mx-auto my-8 w-full max-w-lg rounded-3xl bg-white p-6 shadow-lg"
     >
-      <h2 class="mb-4 text-2xl">New Trip</h2>
+      <h2 class="mb-4 text-2xl">{{ isEdit ? 'Edit trip' : 'New Trip' }}</h2>
 
       <div class="grid gap-4 sm:grid-cols-2">
         <div class="sm:col-span-2">
@@ -87,7 +103,7 @@ async function save() {
             id="trip-name"
             v-model="name"
             type="text"
-            placeholder="Ex. Gaspésie 2026"
+            placeholder="Ex. Canada 2026"
             class="w-full rounded-2xl border-2 p-2 focus:border-coral focus:outline-none"
             :class="submitted && nameError ? 'border-red-500' : 'border-gray-200'"
           />
@@ -100,7 +116,7 @@ async function save() {
             id="trip-dest"
             v-model="destination"
             type="text"
-            placeholder="Ex. Gaspé, Québec"
+            placeholder="Ex. Montreal, Toronto, Vancouver..."
             class="w-full rounded-2xl border-2 border-gray-200 p-2 focus:border-coral focus:outline-none"
           />
         </div>
@@ -113,7 +129,7 @@ async function save() {
           </select>
         </div>
 
-        <div v-if="suggestions.length" class="rounded-2xl bg-sun/20 p-4 sm:col-span-2">
+        <div v-if="!isEdit && suggestions.length" class="rounded-2xl bg-sun/20 p-4 sm:col-span-2">
           <p class="text-sm font-bold">Suggested tasks for « {{ tripType }} »</p>
           <p class="mb-3 text-xs text-gray-500">
             Uncheck useless tasks, you can always add more later.
@@ -153,20 +169,31 @@ async function save() {
             v-model="travelers"
             type="number"
             min="1"
-            class="w-full rounded-2xl border-2 border-gray-200 p-2 focus:border-coral focus:outline-none"
+            class="w-full rounded-2xl border-2 p-2 focus:border-coral focus:outline-none"
+            :class="submitted && travelersError ? 'border-red-500' : 'border-gray-200'"
           />
+          <p v-if="submitted && travelersError" class="mt-1 text-sm text-red-500">{{ travelersError }}</p>
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-bold" for="trip-budget">Budget (CAD$)</label>
-          <input
-            id="trip-budget"
-            v-model="budget"
-            type="number"
-            min="0"
-            placeholder="Ex. 1500"
-            class="w-full rounded-2xl border-2 border-gray-200 p-2 focus:border-coral focus:outline-none"
-          />
+          <label class="mb-1 block text-sm font-bold" for="trip-budget">Budget</label>
+          <div class="flex gap-2">
+            <input
+              id="trip-budget"
+              v-model="budget"
+              type="number"
+              min="0"
+              placeholder="Ex. 1500"
+              class="w-full rounded-2xl border-2 border-gray-200 p-2 focus:border-coral focus:outline-none"
+            />
+            <select
+              v-model="currency"
+              aria-label="Currency"
+              class="rounded-2xl border-2 border-gray-200 p-2"
+            >
+              <option v-for="c in currencies" :key="c">{{ c }}</option>
+            </select>
+          </div>
         </div>
 
         <div>
@@ -196,7 +223,7 @@ async function save() {
             id="trip-desc"
             v-model="description"
             rows="3"
-            placeholder="Idées, étapes, notes..."
+            placeholder="Ideas, steps, notes..."
             class="w-full rounded-2xl border-2 border-gray-200 p-2 focus:border-coral focus:outline-none"
           />
         </div>
@@ -211,7 +238,7 @@ async function save() {
           Cancel
         </button>
         <button type="submit" class="rounded-full bg-coral px-5 py-2 font-bold text-white hover:bg-coral-dark">
-          Create Trip
+          {{ isEdit ? 'Save changes' : 'Create Trip' }}
         </button>
       </div>
     </form>

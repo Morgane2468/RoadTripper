@@ -9,7 +9,8 @@ const team = ["Valentin", "Morgane", "Erwan", "Mathieu"];
 const soonPages = ["Discover", "Calendar", "Budget"];
 </script>
 
-<template> // dessins footer IA
+<!-- dessins footer IA -->
+<template>
   <footer class="relative mt-40 bg-night text-white">
     <svg
       viewBox="0 0 1440 160"

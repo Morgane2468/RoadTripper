@@ -10,6 +10,17 @@ import TripRow from '@/components/TripRow.vue'
 
 const store = useTripsStore()
 const showModal = ref(false)
+const editingTrip = ref(null)
+
+function openCreate() {
+  editingTrip.value = null
+  showModal.value = true
+}
+
+function openEdit(trip) {
+  editingTrip.value = trip
+  showModal.value = true
+}
 
 function removeTrip(trip) {
   if (confirm(`Delete "${trip.name}" and all its tasks?`)) {
@@ -18,12 +29,12 @@ function removeTrip(trip) {
 }
 </script>
 
-<template >
-<!-- Page header -->
+<template>
+  <!-- Page header -->
   <PageHeader title="My trips" subtitle="Organise your trip, without stress!" class="mx:auto items-center justify-between px-14">
     <button
-      @click="showModal = true"
-      class= "rounded-full md:text-xl text-white px-8 py-2 font-bold hover:bg-night-light -translate-x-2 -translate-y-3"
+      @click="openCreate"
+      class="rounded-full md:text-xl text-white px-8 py-2 font-bold hover:bg-night-light -translate-x-2 -translate-y-3"
     >
       + New trip
     </button>
@@ -36,11 +47,17 @@ function removeTrip(trip) {
       <h2 class="mb-4 text-2xl">Your trips</h2>
 
       <div class="space-y-5">
-        <TripRow v-for="trip in store.trips" :key="trip.id_trip" :trip="trip" @delete="removeTrip(trip)" />
+        <TripRow
+          v-for="trip in store.trips"
+          :key="trip.id_trip"
+          :trip="trip"
+          @edit="openEdit(trip)"
+          @delete="removeTrip(trip)"
+        />
 
         <!-- Dashed card to create a new trip -->
         <button
-          @click="showModal = true"
+          @click="openCreate"
           class="flex w-full flex-col items-center rounded-3xl border-2 border-dashed border-coral/40 py-10 text-coral hover:bg-coral/5"
         >
           <span class="font-display text-xl">+ Create a new trip</span>
@@ -51,5 +68,6 @@ function removeTrip(trip) {
 
     <TemplatesSection />
   </div>
-  <TripModal v-if="showModal" @close="showModal = false" />
+
+  <TripModal v-if="showModal" :trip="editingTrip" @close="showModal = false" />
 </template>

@@ -32,9 +32,22 @@ export const useTripsStore = defineStore('trips', {
           start_date: data.start_date || null,
           end_date: data.end_date || null,
           budget: data.budget === '' ? null : data.budget,
+          currency: data.currency,
           tasks,
         })
         await this.load()
+      })
+    },
+    async updateTrip(id, data) {
+      await this.change(async () => {
+        const { data: updated } = await http.put('/trips/' + id, {
+          ...data,
+          start_date: data.start_date || null,
+          end_date: data.end_date || null,
+          budget: data.budget === '' ? null : data.budget,
+        })
+        const trip = this.trips.find((item) => item.id_trip === id)
+        if (trip) Object.assign(trip, updated)
       })
     },
     async deleteTrip(id) {

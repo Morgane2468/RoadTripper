@@ -8,7 +8,7 @@ import TripScene from '@/components/TripScene.vue'
 const props = defineProps({
   trip: { type: Object, required: true },
 })
-const emit = defineEmits(['delete'])
+const emit = defineEmits(['delete', 'edit'])
 
 const store = useTripsStore()
 
@@ -50,7 +50,9 @@ const statuses = computed(() => {
         <span v-if="trip.travelers" class="rounded-full bg-lagoon/20 px-3 py-1">
           {{ trip.travelers }} traveler(s)
         </span>
-        <span v-if="trip.budget" class="rounded-full bg-leaf/30 px-3 py-1">${{ trip.budget }}</span>
+        <span v-if="trip.budget" class="rounded-full bg-leaf/30 px-3 py-1">
+          {{ new Intl.NumberFormat('en-CA', { style: 'currency', currency: trip.currency || 'CAD' }).format(trip.budget) }}
+        </span>
       </div>
 
       <!-- Number of tasks in each Kanban column -->
@@ -80,7 +82,10 @@ const statuses = computed(() => {
         >
           Open board
         </RouterLink>
-        <button @click="emit('delete')" class="text-sm text-red-500 hover:text-red-700">Delete</button>
+        <div class="flex items-center gap-4 text-sm">
+          <button @click="emit('edit')" class="font-bold text-coral hover:text-coral-dark">Edit</button>
+          <button @click="emit('delete')" class="text-red-500 hover:text-red-700">Delete</button>
+        </div>
       </div>
     </div>
   </div>

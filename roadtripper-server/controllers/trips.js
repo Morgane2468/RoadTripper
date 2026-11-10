@@ -2,7 +2,7 @@ const { Trip, Task, sequelize } = require('../database')
 
 const tripFields = [
   'name', 'trip_type', 'destination', 'start_date', 'end_date', 'travelers',
-  'budget', 'transport', 'visibility', 'description',
+  'transport', 'visibility', 'description','budget', 'currency', 'transport', 'visibility', 'description',
 ]
 
 exports.findAll = async (req, res) => {

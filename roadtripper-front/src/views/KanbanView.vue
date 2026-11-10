@@ -1,5 +1,6 @@
 // page d'un voyage avec sa progression et son tableau
 <script setup>
+import TripModal from '@/components/TripModal.vue'
 import { ref, computed } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { useTripsStore } from '@/stores/trips'
@@ -11,6 +12,7 @@ import TaskModal from '@/components/TaskModal.vue'
 const route = useRoute()
 const store = useTripsStore()
 const showModal = ref(false)
+const showEditTrip = ref(false)
 
 const statuses = ['To Do', 'Doing', 'Done']
 
@@ -33,8 +35,15 @@ function tasksWithStatus(status) {
     </PageHeader>
 
     <div class= " p-6 mx-auto max-w-7xl space-y-10 px-8 py-8">
-      <RouterLink to="/trips" class="text-sm font-bold text-coral hover:underline">← My trips</RouterLink>
-
+      <div class="flex items-center justify-between">
+        <RouterLink to="/trips" class="text-sm font-bold text-coral hover:underline">← My trips</RouterLink>
+        <button
+          @click="showEditTrip = true"
+          class="rounded-full border-2 border-coral px-4 py-1 text-sm font-bold text-coral hover:bg-coral/10"
+        >
+          Edit trip
+        </button>
+      </div>
       <div class="mt-3 mb-6 rounded-3xl bg-white p-4 shadow">
         <ProgressBar :percent="store.progress(route.params.id)" />
       </div>
@@ -45,6 +54,7 @@ function tasksWithStatus(status) {
     </div>
 
     <TaskModal v-if="showModal" :trip-id="route.params.id" @close="showModal = false" />
+    <TripModal v-if="showEditTrip" :trip="trip" @close="showEditTrip = false" />
   </div>
 
   <!-- Si l'id de l'URL ne correspond à aucun voyage -->
