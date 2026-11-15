@@ -14,7 +14,7 @@ const menuOpen = ref(false);
 const pages = [
   { label: "Discover" },
   { label: "Calendar", to: "/calendar" },
-  { label: "Budget" },
+  { label: "Budget" , to: "/budget" },
 ];
 
 // Première lettre affichée dans le rond du profil
