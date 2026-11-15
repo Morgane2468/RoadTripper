@@ -7,6 +7,7 @@ import RegisterView from '@/views/RegisterView.vue'
 import TripsView from '@/views/TripsView.vue'
 import KanbanView from '@/views/KanbanView.vue'
 import CalendarView from '@/views/CalendarView.vue'
+import BudgetView from '@/views/BudgetView.vue'
 
 const routes = [
   { path: '/', redirect: '/trips' },
@@ -15,6 +16,7 @@ const routes = [
   { path: '/trips', component: TripsView, meta: { requiresAuth: true } },
   { path: '/trips/:id', component: KanbanView, meta: { requiresAuth: true } },
   { path: '/calendar', component: CalendarView, meta: { requiresAuth: true } },
+  { path: '/budget', component: BudgetView, meta: { requiresAuth: true } },
 ]
 
 const router = createRouter({
