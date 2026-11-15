@@ -1,4 +1,4 @@
-<!-- GearUpLogo : logo GearUP (image /logo.jpg dans le dossier public) et le nom en police Pacifico. -->
+<!-- GearUpLogo : logo GearUP (image /logo.png dans le dossier public) et le nom en police Pacifico. -->
 <!-- La taille suit la taille du texte : on la règle avec une classe text-* sur le composant. -->
 <script setup>
 defineProps({

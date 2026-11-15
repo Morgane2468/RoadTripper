@@ -10,9 +10,7 @@ const auth = useAuthStore();
 
 const menuOpen = ref(false);
 
-// Pages du menu : celles sans "to" sont grisées (pas encore disponibles)
 const pages = [
-  { label: "Discover" },
   { label: "Calendar", to: "/calendar" },
   { label: "Budget" , to: "/budget" },
 ];
