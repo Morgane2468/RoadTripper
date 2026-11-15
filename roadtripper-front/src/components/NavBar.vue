@@ -34,11 +34,11 @@ async function logout() {
 <template>
   <p v-if="logoutError" role="alert" class="text-center text-red-700">{{ logoutError }}</p>
   <nav class="relative bg-night shadow-lg">
-    <div class="mx:auto flex items-center justify-between px-6 py-7">
-      <RouterLink to="/trips" class="text-4xl text-white"><GearUpLogo /></RouterLink>
+    <div class="mx:auto flex items-center justify-between px-6 py-3">
+      <RouterLink to="/trips" class="text-5xl text-white"><GearUpLogo /></RouterLink>
 
       <!-- Liens -->
-      <div class="hidden items-center text-xl gap-3 md:flex translate-x-100">
+      <div class="hidden items-center text-xl gap-3 md:flex translate-x-90">
         <RouterLink
           to="/trips"
           active-class="bg-white !text-night"
