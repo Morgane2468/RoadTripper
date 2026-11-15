@@ -3,7 +3,6 @@
 import { RouterView } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { useTripsStore } from '@/stores/trips';
-import BackgroundShapes from "@/components/BackgroundShapes.vue";
 import NavBar from "@/components/NavBar.vue";
 import SiteFooter from "@/components/SiteFooter.vue";
 
@@ -12,7 +11,6 @@ const trips = useTripsStore();
 </script>
 
 <template>
-
   <div class="relative min-h-screen ">
     <BackgroundShapes />
     <NavBar v-if="auth.user" />

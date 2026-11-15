@@ -3,14 +3,19 @@
 import { ref, computed } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import GearUpLogo from "@/components/GearUpLogo.vue";
 
 const router = useRouter();
 const auth = useAuthStore();
 
 const menuOpen = ref(false);
 
-// Pages pour plus tard (back end)
-const soonPages = ["Discover", "Calendar", "Budget"];
+// Pages du menu : celles sans "to" sont grisées (pas encore disponibles)
+const pages = [
+  { label: "Discover" },
+  { label: "Calendar", to: "/calendar" },
+  { label: "Budget" },
+];
 
 // Première lettre affichée dans le rond du profil
 const initial = computed(() => (auth.email ? auth.email[0].toUpperCase() : "?"));
@@ -32,7 +37,7 @@ async function logout() {
   <p v-if="logoutError" role="alert" class="text-center text-red-700">{{ logoutError }}</p>
   <nav class="relative bg-night shadow-lg">
     <div class="mx:auto flex items-center justify-between px-6 py-7">
-      <RouterLink to="/trips" class="font-brand text-4xl text-white">GearUP</RouterLink>
+      <RouterLink to="/trips" class="text-4xl text-white"><GearUpLogo /></RouterLink>
 
       <!-- Liens -->
       <div class="hidden items-center text-xl gap-3 md:flex translate-x-100">
@@ -43,14 +48,23 @@ async function logout() {
         >
           My Trips
         </RouterLink>
-        <span
-          v-for="page in soonPages"
-          :key="page"
-          class="cursor-not-allowed rounded-full px-4 py-1 font-bold text-white/30"
-          title="Soon available"
-        >
-          {{ page }}
-        </span>
+        <template v-for="page in pages" :key="page.label">
+          <RouterLink
+            v-if="page.to"
+            :to="page.to"
+            active-class="bg-white !text-night"
+            class="rounded-full px-4 py-1 font-bold text-white transition-colors"
+          >
+            {{ page.label }}
+          </RouterLink>
+          <span
+            v-else
+            class="cursor-not-allowed rounded-full px-4 py-1 font-bold text-white/30"
+            title="Soon available"
+          >
+            {{ page.label }}
+          </span>
+        </template>
       </div>
 
       <!-- Menu du compte -->

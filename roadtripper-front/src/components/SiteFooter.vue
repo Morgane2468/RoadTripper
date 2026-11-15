@@ -59,6 +59,7 @@ const soonPages = ["Discover", "Calendar", "Budget"];
         <p class="mb-2 font-bold text-white">Explore</p>
         <ul class="space-y-1">
           <li><RouterLink to="/trips" class="hover:text-white">My Trips</RouterLink></li>
+          <li><RouterLink to="/calendar" class="hover:text-white">Calendar</RouterLink></li>
           <li v-for="page in soonPages" :key="page" class="text-white/40">{{ page }} (soon)</li>
         </ul>
       </div>
