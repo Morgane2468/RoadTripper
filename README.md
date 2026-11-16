@@ -1,145 +1,183 @@
-# GearUP
+# Gear UP (RoadTripper)
 
-A web app to organise road trips: one workspace per trip and a Kanban board (To Do / Doing / Done) to track the preparation.
+Gear UP is a web application that helps you prepare road trips. Each trip has its own workspace with a Kanban board (**To Do**, **Doing**, **Done**) and color-coded task categories (**Admin**, **Gear**, **Bookings**).
 
-Project for the course MOD8 - Advanced Web Programming (Concordia Continuing Education).
+The application was renamed from RoadTripper to Gear UP. The repository and folder names keep `roadtripper` so that file paths stay the same.
+
+Project for MOD8 – Advanced Web Programming (Concordia Continuing Education).
+Team: Valentin, Morgane, Erwan and Mathieu.
+
+## Features
+
+- Registration and login (passwords hashed with bcryptjs, session in a 1-hour JWT stored in an HttpOnly cookie)
+- Protected pages: the session is checked on every navigation and on page refresh
+- Create, edit and delete trips (name, destination, dates, transport, budget...)
+- Suggested tasks saved together with the trip in a single MySQL transaction
+- Kanban board with drag and drop between columns and a progress bar based on Done tasks
+- Each user can only access their own trips and tasks
 
 ## Tech stack
 
-| Layer | Technologies |
-|---|---|
-| Front-end | Vue 3, Vite, Vue Router, Pinia, Tailwind CSS, vuedraggable, Axios |
-| Back-end | Node.js, Express 5, Sequelize, JSON Web Tokens, bcryptjs |
+| Part | Technologies |
+| --- | --- |
+| Front-end (`roadtripper-front`) | Vue 3, Vite, Vue Router, Pinia, Axios, vuedraggable, Tailwind CSS |
+| Back-end (`roadtripper-server`) | Node.js, Express, Sequelize, mysql2, bcryptjs, jsonwebtoken, cookie-parser, CORS |
 | Database | MySQL |
 
-## Getting started
+## Requirements
 
-### Prerequisites
+- Node.js 22.18 or later (or 24.12 or later)
+- MySQL Server running locally (for example MySQL Community Server or XAMPP/MAMP)
+- Git
 
-- Node.js 18 or later
-- A running MySQL server
+## Installation
 
-### 1. Clone the project
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Morgane2468/RoadTripper.git
 cd RoadTripper
 ```
 
-### 2. Set up the back-end
+### 2. Install the dependencies
 
 ```bash
 cd roadtripper-server
 npm install
+
+cd ../roadtripper-front
+npm install
+```
+
+### 3. Configure the server
+
+In `roadtripper-server`, copy the example file and fill it in:
+
+```bash
 cp .env.example .env
 ```
 
-Open `.env` and fill in your own values:
-
 | Variable | Description |
-|---|---|
-| `DB_HOST`, `DB_PORT` | Where MySQL is running (the default MySQL port is usually `3306`) |
-| `DB_USER`, `DB_PASSWORD` | Your MySQL credentials |
-| `DB_NAME` | Database name (`roadtripper`) |
-| `JWT_SECRET` | Secret used to sign login tokens, at least 32 bytes. Generate one with `openssl rand -hex 32` |
-| `FRONTEND_ORIGINS` | Front-end URLs allowed by CORS (default: `http://localhost:5173,http://localhost:5174`) |
+| --- | --- |
+| `DB_HOST` | MySQL host (default `127.0.0.1`) |
+| `DB_PORT` | MySQL port. The example uses `3307`; the usual MySQL default is `3306`. Use the port of your own installation |
+| `DB_USER` | MySQL user (default `root`) |
+| `DB_PASSWORD` | MySQL password |
+| `DB_NAME` | Database name (default `roadtripper`) |
+| `JWT_SECRET` | Secret used to sign the session token. **At least 32 bytes**, the server refuses to start otherwise |
+| `FRONTEND_ORIGINS` | Front-end addresses allowed by CORS, separated by commas (default `http://localhost:5173,http://localhost:5174`) |
 
-Then create the database and start the server:
+You can generate a secret with:
 
 ```bash
-npm run db:setup   # creates the database, the tables and the task categories
-npm start          # API on http://localhost:3000
+node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 ```
 
-Check that it works: <http://localhost:3000/api/health> (server) and <http://localhost:3000/api/health/database> (MySQL connection).
+> The `.env` file contains secrets. It is listed in `.gitignore` and must never be committed or shared.
 
-### 3. Set up the front-end
+### 4. Create the database
 
-In a second terminal:
+From `roadtripper-server`:
 
 ```bash
-cd roadtripper-front
-npm install
+npm run db:setup
+```
+
+This script creates the `roadtripper` database if it does not exist, creates the missing tables (`users`, `road_trips`, `to_dos`, `categories`) and inserts the default categories (Admin, Gear, Bookings). It can be run again safely.
+
+The default categories are read from `roadtripper-front/src/mock/data.json`, so keep this file where it is.
+
+### 5. Start the application
+
+Open two terminals.
+
+**Server** (`roadtripper-server`):
+
+```bash
+npm start
+```
+
+The API runs on `http://localhost:3000`. Check it at `http://localhost:3000/api/health` and `http://localhost:3000/api/health/database`.
+
+**Front-end** (`roadtripper-front`):
+
+```bash
 npm run dev
 ```
 
-Open <http://localhost:5173/>, create an account and log in.
+The application opens on `http://localhost:5173`.
 
-The front-end calls `http://localhost:3000/api` by default. To use another URL, set `VITE_API_URL` in a `.env` file in `roadtripper-front`.
+By default the front-end calls `http://localhost:3000/api`. To use another address, create `roadtripper-front/.env` with `VITE_API_URL=http://your-address/api`.
 
-> **Upgrading an existing database?** The `currency` column was added to trips after the first version. If your `road_trips` table was created before that, run:
->
-> ```sql
-> ALTER TABLE road_trips ADD COLUMN currency VARCHAR(3) NOT NULL DEFAULT 'CAD';
-> ```
+## How to use
 
-## Features
+1. Go to `/register` and create an account (valid email, password of at least 8 characters).
+2. Sign in.
+3. In **My Trips**, create a trip and choose suggested tasks if you want.
+4. Open a trip to see its Kanban board, add tasks and drag them between To Do, Doing and Done.
+5. Refresh the page: your trips and tasks are still there because they are saved in MySQL.
+6. Sign out: protected pages now redirect you to the login page.
 
-- **Accounts:** registration and login with form validation. Passwords are hashed with bcrypt and the session is a JWT stored in a cookie (1 hour).
-- **Protected pages:** the trip pages require a logged-in user, both in the router and on the API.
-- **Trips:** create, view, **edit** and delete trips. Each trip has a name, destination, type, dates, number of travelers, transport, budget with currency, visibility and a description. Editing a trip (for example the budget or the number of travelers) uses the same form as the creation.
-- **Suggested tasks:** when creating a trip, a checklist is suggested according to the trip type (Beach, Mountain, Snow, City...). The user can uncheck what is not needed.
-- **Kanban board:** 3 columns with drag and drop, task categories (Admin, Gear, Bookings) and a progress bar for each trip.
-- **Dashboard:** key figures on the trips page (number of trips, tasks done and left, overall readiness).
+## API overview
+
+All `/api/trips` routes require a valid session cookie.
+
+| Method | Route | Description |
+| --- | --- | --- |
+| POST | `/api/user` | Register |
+| POST | `/api/user/login` | Sign in (sets the `jwt` cookie) |
+| GET | `/api/user/auth` | Check the current session |
+| POST | `/api/user/logout` | Sign out (clears the cookie) |
+| GET | `/api/categories` | List categories |
+| GET, POST | `/api/trips` | List your trips, create a trip (with optional `tasks`) |
+| GET, PUT, DELETE | `/api/trips/:id` | Read, update or delete a trip |
+| GET, POST | `/api/trips/:id/tasks` | List or create tasks of a trip |
+| GET, PUT, DELETE | `/api/trips/:id/tasks/:taskId` | Read, update (title, status, category) or delete a task |
+| GET | `/api/health`, `/api/health/database` | Server and database checks |
+
+## Database
+
+| Table | Content |
+| --- | --- |
+| `users` | Email (unique) and password hash |
+| `road_trips` | Trip details, linked to its owner with `id_user` |
+| `to_dos` | Tasks with title, status (`To Do`, `Doing`, `Done`) and optional `id_category`, linked to a trip with `id_trip` |
+| `categories` | Name and color of each category |
+
+Deleting a user deletes their trips, and deleting a trip deletes its tasks. Deleting a category keeps the tasks and sets their category to empty.
 
 ## Project structure
 
-### `roadtripper-front/src`
+```
+RoadTripper/
+├── roadtripper-front/        Vue application
+│   └── src/
+│       ├── components/       Reusable components (Kanban, modals, navbar...)
+│       ├── views/            Pages (login, register, trips, Kanban)
+│       ├── stores/           Pinia stores (auth, trips)
+│       ├── router/           Routes and session check
+│       └── services/api.js   Axios instance (sends the session cookie)
+└── roadtripper-server/       Express API
+    ├── controllers/          user.controller.js, trips.js, tasks.js
+    ├── routes/               user.js, trips.js
+    ├── database.js           MySQL connection and Sequelize models
+    ├── setup-database.js     Database, tables and default categories
+    └── server.js             Express, CORS, cookies, routes
+```
 
-| Folder / file | Role |
-|---|---|
-| `views/` | Pages: login, registration, list of trips, Kanban board of a trip |
-| `components/` | Reusable parts: navigation bar, Kanban column, task card, trip and task forms, stats... |
-| `stores/auth.js` | Pinia store for the logged-in user (login, logout, session restore) |
-| `stores/trips.js` | Pinia store for trips and tasks: load, add, update, delete, change status, progress |
-| `router/index.js` | List of pages and route guard for pages that need a login |
-| `services/api.js` | Axios instance used for every call to the API |
-| `data/tripTemplates.js` | Suggested tasks for each trip type |
-| `mock/data.json` | Task categories, used by `npm run db:setup` to fill the `categories` table |
-| `assets/main.css` | Theme colors and fonts (Tailwind) |
+## Troubleshooting
 
-### `roadtripper-server`
+- **"Configure JWT_SECRET dans .env avec au moins 32 octets"**: `JWT_SECRET` is missing or too short in `roadtripper-server/.env`.
+- **`ECONNREFUSED` or `Database setup failed`**: MySQL is not running, or `DB_PORT`, `DB_USER` or `DB_PASSWORD` is wrong.
+- **Login works but the next request returns 401**: the front-end address is not listed in `FRONTEND_ORIGINS`. Add it and restart the server.
 
-| Folder / file | Role |
-|---|---|
-| `server.js` | Express app: CORS, cookies, routes, error handling, health checks |
-| `database.js` | Sequelize connection and models (User, Trip, Category, Task) |
-| `setup-database.js` | Creates the database and tables and inserts the task categories |
-| `routes/` | Route definitions for users and trips |
-| `controllers/` | Logic for users and authentication, trips and tasks |
+## Current limitations
 
-## API
-
-All `/api/trips` routes require a logged-in user, and a user can only access their own trips.
-
-| Method | Route | Description |
-|---|---|---|
-| `POST` | `/api/user` | Create an account |
-| `POST` | `/api/user/login` | Log in |
-| `GET` | `/api/user/auth` | Get the current user |
-| `POST` | `/api/user/logout` | Log out |
-| `GET` | `/api/categories` | List the task categories |
-| `GET` | `/api/trips` | List the user's trips |
-| `POST` | `/api/trips` | Create a trip (with optional suggested tasks) |
-| `GET` | `/api/trips/:id` | Get one trip |
-| `PUT` | `/api/trips/:id` | Update a trip |
-| `DELETE` | `/api/trips/:id` | Delete a trip and its tasks |
-| `GET` | `/api/trips/:id/tasks` | List the tasks of a trip |
-| `POST` | `/api/trips/:id/tasks` | Add a task |
-| `PUT` | `/api/trips/:id/tasks/:taskId` | Update a task (title, status, category) |
-| `DELETE` | `/api/trips/:id/tasks/:taskId` | Delete a task |
-
-## Roadmap
-
-Planned but not implemented yet:
-
-- **Discover:** destination ideas and ready-made itineraries
-- **Calendar:** trips on a monthly calendar, with upcoming departures
-- **Budget:** budget overview and expense tracking
-- User profile and settings
-- Sharing trips according to their visibility (Private / Shared with friends / Public)
-- Automated tests
+- Profile management (profile photo, password change, account deletion) is not implemented yet.
 
 ## Team
 
-Valentin, Morgane, Erwan, Mathieu
+- **Valentin**: Node.js back-end, MySQL database, Sequelize models and relationships
+- **Mathieu**: registration, login, JWT session, trip endpoints, database setup script
+- **Erwan**: task and category endpoints, connection of the Kanban board and trip list to the API, ERD
+- **Morgane**: styling, end-to-end tests, README and project plan
