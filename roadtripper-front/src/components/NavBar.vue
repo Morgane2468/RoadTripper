@@ -1,7 +1,8 @@
 <!-- NavBar : barre de navigation en haut de l'écran, avec le menu du compte et la déconnexion. -->
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { RouterLink, useRouter } from "vue-router";
+import http from "@/services/api";
 import { useAuthStore } from "@/stores/auth";
 import GearUpLogo from "@/components/GearUpLogo.vue";
 
@@ -17,6 +18,20 @@ const pages = [
 
 // Première lettre affichée dans le rond du profil
 const initial = computed(() => (auth.email ? auth.email[0].toUpperCase() : "?"));
+
+watch(() => auth.user?.id_user, async (userId, _previousId, onCleanup) => {
+  if (!userId || auth.avatar !== undefined) return
+  const controller = new AbortController()
+  onCleanup(() => controller.abort())
+  try {
+    const { data } = await http.get('/user/profile', { signal: controller.signal })
+    if (!controller.signal.aborted && auth.user?.id_user === userId && auth.avatar === undefined) {
+      auth.avatar = data.avatar
+    }
+  } catch {
+    // Affiche l'initiale si la photo ne peut pas être chargée.
+  }
+}, { immediate: true })
 
 const logoutError = ref('')
 
@@ -68,10 +83,14 @@ async function logout() {
       <!-- Menu du compte -->
       <div class="relative">
         <button
+          type="button"
+          aria-label="Account menu"
+          :aria-expanded="menuOpen"
           @click="menuOpen = !menuOpen"
           class="flex h-11 w-11 items-center justify-center rounded-full bg-white font-bold text-night ring-2 ring-white/20 transition-transform hover:scale-105"
         >
-          {{ initial }}
+          <img v-if="auth.avatar" :src="auth.avatar" alt="" class="h-full w-full rounded-full object-cover" />
+          <span v-else>{{ initial }}</span>
         </button>
 
         <!-- Zone invisible pour fermer les menus ouverts -->
@@ -83,8 +102,12 @@ async function logout() {
         >
           <p class="truncate px-3 py-2 text-sm text-gray-500">{{ auth.email }}</p>
           <hr class="my-1 border-gray-100" />
-          <span class="block cursor-not-allowed px-3 py-2 text-gray-400">My profile (soon)</span>
-          <span class="block cursor-not-allowed px-3 py-2 text-gray-400">Settings (soon)</span>
+          <RouterLink to="/profile" class="block rounded-xl px-3 py-2 hover:bg-cream" @click="menuOpen = false">
+            My profile
+          </RouterLink>
+          <RouterLink to="/settings" class="block rounded-xl px-3 py-2 hover:bg-cream" @click="menuOpen = false">
+            Settings
+          </RouterLink>
           <hr class="my-1 border-gray-100" />
           <button
             @click="logout"

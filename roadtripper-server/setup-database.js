@@ -1,5 +1,5 @@
 const mysql = require('mysql2/promise')
-const { sequelize, database, connection, Category } = require('./database')
+const { sequelize, database, connection, Category, User } = require('./database')
 const { categories } = require('../roadtripper-front/src/mock/data.json')
 
 async function setup() {
@@ -12,6 +12,11 @@ async function setup() {
     }
 
     await sequelize.sync()
+    const query = sequelize.getQueryInterface()
+    const columns = await query.describeTable('users')
+    for (const field of ['first_name', 'last_name', 'nickname', 'avatar']) {
+      if (!columns[field]) await query.addColumn('users', field, User.getAttributes()[field])
+    }
     await sequelize.transaction(async (transaction) => {
       for (const { id_category, ...category } of categories) {
         await Category.findOrCreate({

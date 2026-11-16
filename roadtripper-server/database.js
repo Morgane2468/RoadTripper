@@ -26,6 +26,10 @@ const User = sequelize.define('User', {
   id_user: { ...id },
   email: { ...requiredString, unique: true, validate: { isEmail: true } },
   password_hash: { ...requiredString },
+  first_name: DataTypes.STRING(80),
+  last_name: DataTypes.STRING(80),
+  nickname: DataTypes.STRING(80),
+  avatar: DataTypes.TEXT('medium'),
 }, { tableName: 'users', timestamps: false })
 
 const Trip = sequelize.define('Trip', {

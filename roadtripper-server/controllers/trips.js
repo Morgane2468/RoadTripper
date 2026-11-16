@@ -14,7 +14,7 @@ exports.findOwnedTrip = async (req, res, next) => {
   req.trip = await Trip.findOne({
     where: { id_trip: req.params.id, id_user: req.user.id_user },
   })
-  if (!req.trip) return res.status(404).json({ message: 'Voyage introuvable.' })
+  if (!req.trip) return res.status(404).json({ message: 'Trip not found.' })
   next()
 }
 
@@ -24,7 +24,7 @@ exports.create = async (req, res) => {
   const { name, tasks = [] } = req.body || {}
   if (typeof name !== 'string' || !name.trim() || !Array.isArray(tasks) ||
       tasks.some(task => typeof task?.title !== 'string' || !task.title.trim())) {
-    return res.status(400).json({ message: 'Vérifie le nom du voyage et les titres des tâches.' })
+    return res.status(400).json({ message: 'Check the trip name and task titles.' })
   }
 
   const trip = await sequelize.transaction(async transaction => {
@@ -48,7 +48,7 @@ exports.update = async (req, res) => {
   const data = req.body || {}
   if (Object.hasOwn(data, 'name')) {
     if (typeof data.name !== 'string' || !data.name.trim()) {
-      return res.status(400).json({ message: 'Le nom du voyage est obligatoire.' })
+      return res.status(400).json({ message: 'A trip name is required.' })
     }
     data.name = data.name.trim()
   }

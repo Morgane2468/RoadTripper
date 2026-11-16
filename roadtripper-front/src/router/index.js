@@ -8,6 +8,8 @@ import TripsView from '@/views/TripsView.vue'
 import KanbanView from '@/views/KanbanView.vue'
 import CalendarView from '@/views/CalendarView.vue'
 import BudgetView from '@/views/BudgetView.vue'
+import ProfileView from '@/views/ProfileView.vue'
+import SettingsView from '@/views/SettingsView.vue'
 
 const routes = [
   { path: '/', redirect: '/trips' },
@@ -17,6 +19,8 @@ const routes = [
   { path: '/trips/:id', component: KanbanView, meta: { requiresAuth: true } },
   { path: '/calendar', component: CalendarView, meta: { requiresAuth: true } },
   { path: '/budget', component: BudgetView, meta: { requiresAuth: true } },
+  { path: '/profile', component: ProfileView, meta: { requiresAuth: true, skipTrips: true } },
+  { path: '/settings', component: SettingsView, meta: { requiresAuth: true, skipTrips: true } },
 ]
 
 const router = createRouter({
@@ -32,7 +36,7 @@ router.beforeEach(async (to) => {
   try {
     await auth.restore()
     if (!auth.user) return '/login'
-    if (!trips.loaded) await trips.load()
+    if (!to.meta.skipTrips && !trips.loaded) await trips.load()
   } catch {
     if (!auth.user) return '/login'
     trips.error = 'Unable to load trips. Please refresh to try again.'

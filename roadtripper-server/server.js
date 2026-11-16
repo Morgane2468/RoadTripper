@@ -9,6 +9,7 @@ const app = express()
 const port = Number(process.env.PORT || 3000)
 const origins = (process.env.FRONTEND_ORIGINS || 'http://localhost:5173,http://localhost:5174').split(',').map(origin => origin.trim())
 app.use(cors({ origin: origins, credentials: true }))
+app.use('/api/user/profile', express.json({ limit: '750kb' }))
 app.use(express.json())
 app.use(cookieParser())
 
@@ -34,15 +35,18 @@ app.get('/api/health/database', async (req, res) => {
 
 app.use((error, req, res, next) => {
   if (res.headersSent) return next(error)
+  if (error.type === 'entity.too.large') {
+    return res.status(413).json({ message: 'The request is too large.' })
+  }
   if (error instanceof UniqueConstraintError) {
-    return res.status(409).json({ message: 'Cette valeur est déjà utilisée.' })
+    return res.status(409).json({ message: 'This value is already in use.' })
   }
   if (error instanceof ValidationError || error instanceof ForeignKeyConstraintError ||
       error.type === 'entity.parse.failed') {
-    return res.status(400).json({ message: 'Données invalides.' })
+    return res.status(400).json({ message: 'Invalid request data.' })
   }
   console.error(error)
-  res.status(500).json({ message: 'Erreur du serveur.' })
+  res.status(500).json({ message: 'Something went wrong on the server.' })
 })
 
 const server = app.listen(port, '127.0.0.1', () => {
