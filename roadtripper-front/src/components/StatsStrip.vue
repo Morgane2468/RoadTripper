@@ -22,7 +22,6 @@ const stats = computed(() => {
 <template>
   <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
     <div v-for="stat in stats" :key="stat.label" class="rounded-3xl bg-white p-5 shadow">
-      <span class="mb-3 block h-1.5 w-10 rounded-full" :class="stat.color" />
       <p class="font-display text-4xl">{{ stat.value }}</p>
       <p class="text-sm text-gray-500">{{ stat.label }}</p>
     </div>
