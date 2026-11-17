@@ -5,8 +5,7 @@ import { RouterLink } from "vue-router";
 const APP_NAME = "GearUP";
 const team = ["Valentin", "Morgane", "Erwan", "Mathieu"];
 
-// pages qui vont etre ajoutées apres avec back-end
-const soonPages = ["Discover", "Calendar", "Budget"];
+
 </script>
 
 <!-- dessins footer IA -->
@@ -60,7 +59,7 @@ const soonPages = ["Discover", "Calendar", "Budget"];
         <ul class="space-y-1">
           <li><RouterLink to="/trips" class="hover:text-white">My Trips</RouterLink></li>
           <li><RouterLink to="/calendar" class="hover:text-white">Calendar</RouterLink></li>
-          <li v-for="page in soonPages" :key="page" class="text-white/40">{{ page }} (soon)</li>
+          <li><RouterLink to="/budget" class="hover:text-white">Budget</RouterLink></li>
         </ul>
       </div>
 
